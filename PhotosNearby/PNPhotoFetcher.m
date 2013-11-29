@@ -7,6 +7,7 @@
 //
 
 #import "PNPhotoFetcher.h"
+#import "PNLocationFetcher.h"
 #import <SDWebImage/SDWebImageManager.h>
 
 #define API_URL_PHOTO_SEARCH @"https://api.500px.com/v1/photos/search"
@@ -16,13 +17,22 @@
 #define SORT_BY @"rating"
 #define CATEGORIES @"Landscapes,City%20and%20Architecture"
 
-@implementation PNPhotoFetcher
+@implementation PNPhotoFetcher {
+    PNLocationFetcher *_locationFetcher;
+}
 
 @synthesize results;
 
+- (id)init {
+    if (self = [super init]) {
+        _locationFetcher = [[PNLocationFetcher alloc] init];
+    }
+    return self;
+}
+
 - (NSURL*)getPhotoSearchURL {
-    float lat = 37.7862f;
-    float lng = -122.4371f;
+    float lat = _locationFetcher.lat;
+    float lng = _locationFetcher.lng;
     float range = 0.5f;
 
     NSMutableString *url = [NSMutableString stringWithString:API_URL_PHOTO_SEARCH];
@@ -71,6 +81,16 @@
 }
 
 - (void)fetch {
+    if (_locationFetcher.lat && _locationFetcher.lng) {
+        [self _fetch];
+    } else {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_fetch) name:@"fetchedLocation" object:_locationFetcher];
+    }
+}
+
+- (void)_fetch {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     NSURLRequest *request = [NSURLRequest requestWithURL:[self getPhotoSearchURL]];
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
 

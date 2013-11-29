@@ -33,6 +33,7 @@
 		29CF8822184830AC006A163C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29CF8821184830AC006A163C /* MapKit.framework */; };
 		29CF8824184830B1006A163C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29CF8823184830B1006A163C /* ImageIO.framework */; };
 		29CF882718485977006A163C /* PNPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 29CF882618485977006A163C /* PNPhoto.m */; };
+		29CF882A184870E1006A163C /* PNLocationFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 29CF8829184870E1006A163C /* PNLocationFetcher.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +110,8 @@
 		29CF8823184830B1006A163C /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		29CF882518485977006A163C /* PNPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNPhoto.h; sourceTree = "<group>"; };
 		29CF882618485977006A163C /* PNPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNPhoto.m; sourceTree = "<group>"; };
+		29CF8828184870E1006A163C /* PNLocationFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLocationFetcher.h; sourceTree = "<group>"; };
+		29CF8829184870E1006A163C /* PNLocationFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLocationFetcher.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +224,8 @@
 				299DC338184809030019C821 /* PNPhotoFetcher.m */,
 				29CF882518485977006A163C /* PNPhoto.h */,
 				29CF882618485977006A163C /* PNPhoto.m */,
+				29CF8828184870E1006A163C /* PNLocationFetcher.h */,
+				29CF8829184870E1006A163C /* PNLocationFetcher.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -426,6 +431,7 @@
 				299DC339184809030019C821 /* PNPhotoFetcher.m in Sources */,
 				299DC356184817840019C821 /* PNPhotoListViewCell.m in Sources */,
 				295111B01845D1A3002A4754 /* PNViewController.m in Sources */,
+				29CF882A184870E1006A163C /* PNLocationFetcher.m in Sources */,
 				295111A61845D1A3002A4754 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
