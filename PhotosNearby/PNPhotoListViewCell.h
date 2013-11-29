@@ -7,15 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PNPhoto.h"
+
+#define PN_PHOTO_LIST_VIEW_CELL_V_PAD 10
 
 @interface PNPhotoListViewCell : UITableViewCell
     
-@property (nonatomic, retain) UIImage *image;
-@property (nonatomic, retain) NSDate *takenAt;
-@property (nonatomic, retain) NSString *shutter;
-@property (nonatomic, retain) NSString *aperture;
-@property (nonatomic, retain) NSString *iso;
-@property (nonatomic) float lat;
-@property (nonatomic) float lng;
+- (void)setPhoto:(PNPhoto*)photo;
 
 @end

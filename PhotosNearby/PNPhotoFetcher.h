@@ -14,6 +14,6 @@
 - (void)fetch;
 - (void)downloadImageForPhoto:(PNPhoto*)url;
 
-@property (nonatomic, retain) NSArray* results;
+@property (nonatomic, retain) NSMutableArray* results;
 
 @end

@@ -10,7 +10,11 @@
 
 @interface PNPhoto : NSObject
 
-@property (nonatomic, retain) UIImage *image;
+@property (nonatomic, retain, setter=setImage:) UIImage *image;
 @property (nonatomic, retain) NSString *imageURL;
+@property (nonatomic) float width;
+@property (nonatomic) float height;
+@property (nonatomic) float lat;
+@property (nonatomic) float lng;
 
 @end

@@ -8,6 +8,15 @@
 
 #import "PNPhoto.h"
 
-@implementation PNPhoto
+@implementation PNPhoto {
+    UIImage *_image;
+}
+
+@synthesize width, height, lat, lng, imageURL, image=_image;
+
+- (void)setImage:(UIImage *)image {
+    _image = image;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"imageChanged" object:self];
+}
 
 @end

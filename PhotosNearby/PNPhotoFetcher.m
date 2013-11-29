@@ -26,6 +26,7 @@
 - (id)init {
     if (self = [super init]) {
         _locationFetcher = [[PNLocationFetcher alloc] init];
+        self.results = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -47,15 +48,12 @@
 
 - (void)downloadImageForPhoto:(PNPhoto *)photo {
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
-    NSLog(@"Downloading %@", photo.imageURL);
     [manager downloadWithURL:[NSURL URLWithString:photo.imageURL]
                      options:0
                     progress:nil
                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
                        if (image) {
                            photo.image = image;
-
-                           [[NSNotificationCenter defaultCenter] postNotificationName:@"fetchedPhoto" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:photo, @"photo", nil]];
                        }
                    }
      ];
@@ -66,17 +64,30 @@
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data
                           options:kNilOptions
                           error:&error];
-    self.results = [json objectForKey:@"photos"];
+    NSArray *photos = [json objectForKey:@"photos"];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"fetchedPhotoList" object:self];
-    
-    [self.results enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [photos enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSDictionary *dict = (NSDictionary*)obj;
         
         PNPhoto *photo = [[PNPhoto alloc] init];
         photo.imageURL = [dict objectForKey:@"image_url"];
+        photo.width = [[dict objectForKey:@"width"] floatValue];
+        photo.height = [[dict objectForKey:@"height"] floatValue];
+        photo.lat = [[dict objectForKey:@"latitude"] floatValue];
+        photo.lng = [[dict objectForKey:@"longitude"] floatValue];
+        [self.results addObject:photo];
         
         [self downloadImageForPhoto:photo];
+    }];
+    
+    //
+    // TODO: SORT RESULTS HERE
+    //
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"fetchedPhotoList" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.results, @"photos", nil]];
+    
+    [self.results enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [self downloadImageForPhoto:obj];
     }];
 }
 

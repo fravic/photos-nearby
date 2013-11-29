@@ -9,19 +9,26 @@
 #import "PNPhotoListViewCell.h"
 
 @implementation PNPhotoListViewCell {
-    UIImageView *_imgView;
+    PNPhoto *_photo;
 }
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
     }
     return self;
 }
 
-- (void)setImage:(UIImage *)image {
-    [self.imageView setImage:image];
+- (void)setPhoto:(PNPhoto*)photo {
+    _photo = photo;
+    if (photo.image) {
+        [self.imageView setImage:photo.image];
+    }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeImage:) name:@"imageChanged" object:photo];
+}
+
+- (void)didChangeImage:(NSNotification*)notification {
+    [self.imageView setImage:_photo.image];
     [self layoutSubviews];
 }
 
@@ -29,8 +36,7 @@
     [super layoutSubviews];
     
     CGRect imageFrame = self.bounds;
-    UIImage *image = self.imageView.image;
-    imageFrame.size.height = image.size.height / image.size.width * imageFrame.size.width;
+    imageFrame.size.height = _photo.height/_photo.width * imageFrame.size.width;
     self.imageView.frame = imageFrame;
 }
 
