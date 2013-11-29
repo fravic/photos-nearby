@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "PNPhotoFetcher.h"
 
-@interface PNViewController : UIViewController <PNPhotoFetcherDelegate>
+@interface PNViewController : UITableViewController
 
 @end

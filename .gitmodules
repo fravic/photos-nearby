@@ -1,0 +1,3 @@
+[submodule "PhotosNearby/lib/SDWebImage"]
+	path = PhotosNearby/lib/SDWebImage
+	url = https://github.com/rs/SDWebImage.git

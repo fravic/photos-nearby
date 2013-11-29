@@ -24,6 +24,14 @@
 		299DC339184809030019C821 /* PNPhotoFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 299DC338184809030019C821 /* PNPhotoFetcher.m */; };
 		299DC353184816D70019C821 /* PNPhotoListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 299DC352184816D70019C821 /* PNPhotoListView.m */; };
 		299DC356184817840019C821 /* PNPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 299DC355184817840019C821 /* PNPhotoView.m */; };
+		299DC398184821550019C821 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 299DC358184821550019C821 /* .gitignore */; };
+		299DC399184821550019C821 /* .gitmodules in Resources */ = {isa = PBXBuildFile; fileRef = 299DC359184821550019C821 /* .gitmodules */; };
+		299DC3A5184821550019C821 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 299DC372184821550019C821 /* LICENSE */; };
+		299DC3A6184821550019C821 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 299DC373184821550019C821 /* README.md */; };
+		299DC3B5184821550019C821 /* SDWebImage.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 299DC392184821550019C821 /* SDWebImage.podspec */; };
+		29CF881E1848304E006A163C /* libSDWebImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 299DC3BE184821550019C821 /* libSDWebImage.a */; };
+		29CF8822184830AC006A163C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29CF8821184830AC006A163C /* MapKit.framework */; };
+		29CF8824184830B1006A163C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29CF8823184830B1006A163C /* ImageIO.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +41,34 @@
 			proxyType = 1;
 			remoteGlobalIDString = 295111951845D1A2002A4754;
 			remoteInfo = PhotosNearby;
+		};
+		2978CB6118482E4300CBA573 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 299DC393184821550019C821 /* SDWebImage.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 53761307155AD0D5005750A4;
+			remoteInfo = SDWebImage;
+		};
+		299DC3BD184821550019C821 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 299DC393184821550019C821 /* SDWebImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 53761325155AD0D5005750A4;
+			remoteInfo = SDWebImage;
+		};
+		299DC3BF184821550019C821 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 299DC393184821550019C821 /* SDWebImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 537D95C117ECC1FE0097C263;
+			remoteInfo = "SDWebImage+WebP";
+		};
+		299DC3C1184821550019C821 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 299DC393184821550019C821 /* SDWebImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 531041E0157EAFA400BBABC3;
+			remoteInfo = "SDWebImage+MKAnnotation";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -62,6 +98,14 @@
 		299DC352184816D70019C821 /* PNPhotoListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNPhotoListView.m; sourceTree = "<group>"; };
 		299DC354184817840019C821 /* PNPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNPhotoView.h; sourceTree = "<group>"; };
 		299DC355184817840019C821 /* PNPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNPhotoView.m; sourceTree = "<group>"; };
+		299DC358184821550019C821 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		299DC359184821550019C821 /* .gitmodules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
+		299DC372184821550019C821 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		299DC373184821550019C821 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		299DC392184821550019C821 /* SDWebImage.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SDWebImage.podspec; sourceTree = "<group>"; };
+		299DC393184821550019C821 /* SDWebImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = SDWebImage.xcodeproj; sourceTree = "<group>"; };
+		29CF8821184830AC006A163C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		29CF8823184830B1006A163C /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +113,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29CF8824184830B1006A163C /* ImageIO.framework in Frameworks */,
+				29CF8822184830AC006A163C /* MapKit.framework in Frameworks */,
+				29CF881E1848304E006A163C /* libSDWebImage.a in Frameworks */,
 				2951119C1845D1A2002A4754 /* CoreGraphics.framework in Frameworks */,
 				2951119E1845D1A3002A4754 /* UIKit.framework in Frameworks */,
 				2951119A1845D1A2002A4754 /* Foundation.framework in Frameworks */,
@@ -110,6 +157,8 @@
 		295111981845D1A2002A4754 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				29CF8823184830B1006A163C /* ImageIO.framework */,
+				29CF8821184830AC006A163C /* MapKit.framework */,
 				295111991845D1A2002A4754 /* Foundation.framework */,
 				2951119B1845D1A2002A4754 /* CoreGraphics.framework */,
 				2951119D1845D1A3002A4754 /* UIKit.framework */,
@@ -187,8 +236,49 @@
 		299DC31F184808680019C821 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				299DC357184821550019C821 /* SDWebImage */,
 			);
 			name = lib;
+			sourceTree = "<group>";
+		};
+		299DC357184821550019C821 /* SDWebImage */ = {
+			isa = PBXGroup;
+			children = (
+				299DC358184821550019C821 /* .gitignore */,
+				299DC359184821550019C821 /* .gitmodules */,
+				299DC372184821550019C821 /* LICENSE */,
+				299DC373184821550019C821 /* README.md */,
+				299DC392184821550019C821 /* SDWebImage.podspec */,
+				299DC393184821550019C821 /* SDWebImage.xcodeproj */,
+				299DC396184821550019C821 /* Vendors */,
+			);
+			name = SDWebImage;
+			path = lib/SDWebImage;
+			sourceTree = "<group>";
+		};
+		299DC394184821550019C821 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				299DC3BE184821550019C821 /* libSDWebImage.a */,
+				299DC3C0184821550019C821 /* libSDWebImage+WebP.a */,
+				299DC3C2184821550019C821 /* libSDWebImage+MKAnnotation.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		299DC396184821550019C821 /* Vendors */ = {
+			isa = PBXGroup;
+			children = (
+				299DC397184821550019C821 /* libwebp */,
+			);
+			path = Vendors;
+			sourceTree = "<group>";
+		};
+		299DC397184821550019C821 /* libwebp */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = libwebp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,6 +295,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				2978CB6218482E4300CBA573 /* PBXTargetDependency */,
 			);
 			name = PhotosNearby;
 			productName = PhotosNearby;
@@ -255,6 +346,12 @@
 			mainGroup = 2951118D1845D1A2002A4754;
 			productRefGroup = 295111971845D1A2002A4754 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 299DC394184821550019C821 /* Products */;
+					ProjectRef = 299DC393184821550019C821 /* SDWebImage.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				295111951845D1A2002A4754 /* PhotosNearby */,
@@ -263,13 +360,42 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		299DC3BE184821550019C821 /* libSDWebImage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSDWebImage.a;
+			remoteRef = 299DC3BD184821550019C821 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		299DC3C0184821550019C821 /* libSDWebImage+WebP.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libSDWebImage+WebP.a";
+			remoteRef = 299DC3BF184821550019C821 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		299DC3C2184821550019C821 /* libSDWebImage+MKAnnotation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libSDWebImage+MKAnnotation.a";
+			remoteRef = 299DC3C1184821550019C821 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		295111941845D1A2002A4754 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				299DC398184821550019C821 /* .gitignore in Resources */,
+				299DC3A5184821550019C821 /* LICENSE in Resources */,
 				295111B21845D1A3002A4754 /* Images.xcassets in Resources */,
+				299DC399184821550019C821 /* .gitmodules in Resources */,
 				295111A41845D1A3002A4754 /* InfoPlist.strings in Resources */,
+				299DC3B5184821550019C821 /* SDWebImage.podspec in Resources */,
+				299DC3A6184821550019C821 /* README.md in Resources */,
 				295111AD1845D1A3002A4754 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -313,6 +439,11 @@
 			isa = PBXTargetDependency;
 			target = 295111951845D1A2002A4754 /* PhotosNearby */;
 			targetProxy = 295111BC1845D1A3002A4754 /* PBXContainerItemProxy */;
+		};
+		2978CB6218482E4300CBA573 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SDWebImage;
+			targetProxy = 2978CB6118482E4300CBA573 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -423,6 +554,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhotosNearby/PhotosNearby-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SOURCE_ROOT)/lib/SDWebImage/SDWebImage/**",
+				);
 				INFOPLIST_FILE = "PhotosNearby/PhotosNearby-Info.plist";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -440,6 +576,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhotosNearby/PhotosNearby-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SOURCE_ROOT)/lib/SDWebImage/SDWebImage/**",
+				);
 				INFOPLIST_FILE = "PhotosNearby/PhotosNearby-Info.plist";
 				OTHER_LDFLAGS = (
 					"-ObjC",

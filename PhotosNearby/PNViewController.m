@@ -9,9 +9,8 @@
 #import "PNViewController.h"
 #import "PNPhotoListView.h"
 
-@interface PNViewController ()
+#import <SDWebImage/UIImageView+WebCache.h>
 
-@end
 
 @implementation PNViewController {
     PNPhotoFetcher *_fetcher;
@@ -21,26 +20,52 @@
     [super viewDidLoad];
     
     _fetcher = [[PNPhotoFetcher alloc] init];
-    [_fetcher fetchForDelegate:self];
-}
-
-- (void)didReceivePhotos:(NSArray *)photos {
-    NSLog(@"%@", photos);
-    [photos enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSDictionary *dict = (NSDictionary*)obj;
-
-        /*PNPhotoView *photo = [[PNPhotoView alloc] init];
-        photo.image = [dict objectForKey:@"image_url"];
-        photo.shutter = [dict objectForKey:@"shutter_speed"];
-        photo.aperture = [dict objectForKey:@"aperture"];
-        photo.iso = [dict objectForKey:@"iso"];
-        photo.lat = [[dict objectForKey:@"latitude"] floatValue];
-        photo.lng = [[dict objectForKey:@"longitude"] floatValue];*/
-    }];
+    [_fetcher fetch];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePhotos) name:@"fetchedPhotos" object:_fetcher];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+# pragma mark - Photo Fetcher Delegate
+
+- (void)didReceivePhotos {
+    [self.tableView reloadData];
+}
+
+# pragma mark - Table View
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return _fetcher.results.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"Image #%d", indexPath.row];
+    cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    
+    NSDictionary *photoData = [_fetcher.results objectAtIndex:indexPath.row];
+    NSURL *imageURL = [NSURL URLWithString:[photoData objectForKey:@"image_url"]];
+    
+    [cell.imageView setImageWithURL:imageURL
+                   placeholderImage:[UIImage imageNamed:@"placeholder"]
+                            options:indexPath.row == 0 ? SDWebImageRefreshCached : 0];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 @end

@@ -8,12 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol PNPhotoFetcherDelegate <NSObject>
-- (void)didReceivePhotos:(NSArray*)photos;
-@end
-
 @interface PNPhotoFetcher : NSObject
 
-- (void)fetchForDelegate:(id<PNPhotoFetcherDelegate>)delegate;
+- (void)fetch;
+
+@property (nonatomic, retain) NSArray* results;
 
 @end

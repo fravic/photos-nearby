@@ -14,9 +14,9 @@
 #define IMAGE_SIZE 4
 #define SORT_BY @"rating"
 
-@implementation PNPhotoFetcher {
-    id<PNPhotoFetcherDelegate> _delegate;
-}
+@implementation PNPhotoFetcher
+
+@synthesize results;
 
 - (NSURL*)getPhotoSearchURL {
     float lat = 37.7862f;
@@ -37,13 +37,12 @@
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data
                           options:kNilOptions
                           error:&error];
-    NSArray *photos = [json objectForKey:@"photos"];
-    [_delegate didReceivePhotos:photos];
+    self.results = [json objectForKey:@"photos"];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"fetchedPhotos" object:self];
 }
 
-- (void)fetchForDelegate:(id<PNPhotoFetcherDelegate>)delegate {
-    _delegate = delegate;
-    
+- (void)fetch {
     NSURLRequest *request = [NSURLRequest requestWithURL:[self getPhotoSearchURL]];
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
 
