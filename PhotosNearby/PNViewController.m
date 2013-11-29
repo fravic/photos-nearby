@@ -15,6 +15,7 @@
 
 @implementation PNViewController {
     PNPhotoFetcher *_fetcher;
+    PNPhotoListViewCell *_activeCell;
 }
 
 - (void)viewDidLoad {
@@ -56,6 +57,7 @@
     PNPhotoListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[PNPhotoListViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 
     PNPhoto *photo = [_fetcher.results objectAtIndex:indexPath.row];
@@ -64,9 +66,20 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat width = self.view.bounds.size.width;
+    CGFloat width = self.view.bounds.size.width - PN_PHOTO_LIST_VIEW_CELL_H_PAD;
     PNPhoto *photo = [_fetcher.results objectAtIndex:indexPath.row];
-    return (photo.height/photo.width) * width + PN_PHOTO_LIST_VIEW_CELL_V_PAD;
+    return (photo.height/photo.width) * width;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 22.0f)];
+    headerView.backgroundColor = [UIColor pnDarkGrayColor];
+    return headerView;
+    
+}
+
+-(float)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return  22.0;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell
@@ -75,6 +88,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (_activeCell) {
+        [_activeCell setActive:NO];
+    }
+    _activeCell = (PNPhotoListViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+    [_activeCell setActive:YES];
 }
 
 @end

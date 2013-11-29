@@ -12,13 +12,6 @@
     PNPhoto *_photo;
 }
 
-- (id)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-    }
-    return self;
-}
-
 - (void)setPhoto:(PNPhoto*)photo {
     _photo = photo;
     if (photo.image) {
@@ -35,9 +28,26 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGRect imageFrame = self.bounds;
-    imageFrame.size.height = _photo.height/_photo.width * imageFrame.size.width;
+    CGFloat imageWidth = self.bounds.size.width - PN_PHOTO_LIST_VIEW_CELL_H_PAD;
+    CGRect imageFrame = CGRectMake(PN_PHOTO_LIST_VIEW_CELL_H_PAD/2, PN_PHOTO_LIST_VIEW_CELL_V_PAD/2, imageWidth,
+        _photo.height/_photo.width * imageWidth);
     self.imageView.frame = imageFrame;
+}
+
+- (void)setActive:(BOOL)active {
+    if (active) {
+        [self animateToActiveState];
+    } else {
+        [self animateToDefaultState];
+    }
+}
+
+- (void)animateToActiveState {
+    
+}
+
+- (void)animateToDefaultState {
+    
 }
 
 @end

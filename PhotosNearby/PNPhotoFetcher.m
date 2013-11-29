@@ -107,7 +107,11 @@
 
     // Perform request and get JSON back as a NSData object
     [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
-            [self didReceivePhotoSearchData:data];
+            if (!data) {
+                NSLog(@"%@", error);
+            } else {
+                [self didReceivePhotoSearchData:data];
+            }
         }
     ];
 }

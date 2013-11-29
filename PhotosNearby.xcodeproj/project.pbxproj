@@ -21,6 +21,7 @@
 		295111BB1845D1A3002A4754 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2951119D1845D1A3002A4754 /* UIKit.framework */; };
 		295111C31845D1A3002A4754 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 295111C11845D1A3002A4754 /* InfoPlist.strings */; };
 		295111C51845D1A3002A4754 /* PhotosNearbyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 295111C41845D1A3002A4754 /* PhotosNearbyTests.m */; };
+		2974F4A518495826002D4C9E /* UIColor+Palette.m in Sources */ = {isa = PBXBuildFile; fileRef = 2974F4A418495826002D4C9E /* UIColor+Palette.m */; };
 		299DC339184809030019C821 /* PNPhotoFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 299DC338184809030019C821 /* PNPhotoFetcher.m */; };
 		299DC353184816D70019C821 /* PNPhotoListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 299DC352184816D70019C821 /* PNPhotoListView.m */; };
 		299DC356184817840019C821 /* PNPhotoListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 299DC355184817840019C821 /* PNPhotoListViewCell.m */; };
@@ -94,6 +95,8 @@
 		295111C01845D1A3002A4754 /* PhotosNearbyTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PhotosNearbyTests-Info.plist"; sourceTree = "<group>"; };
 		295111C21845D1A3002A4754 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		295111C41845D1A3002A4754 /* PhotosNearbyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotosNearbyTests.m; sourceTree = "<group>"; };
+		2974F4A318495826002D4C9E /* UIColor+Palette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Palette.h"; sourceTree = "<group>"; };
+		2974F4A418495826002D4C9E /* UIColor+Palette.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Palette.m"; sourceTree = "<group>"; };
 		299DC337184809030019C821 /* PNPhotoFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNPhotoFetcher.h; sourceTree = "<group>"; };
 		299DC338184809030019C821 /* PNPhotoFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNPhotoFetcher.m; sourceTree = "<group>"; };
 		299DC351184816D70019C821 /* PNPhotoListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNPhotoListView.h; sourceTree = "<group>"; };
@@ -239,6 +242,8 @@
 				299DC352184816D70019C821 /* PNPhotoListView.m */,
 				299DC354184817840019C821 /* PNPhotoListViewCell.h */,
 				299DC355184817840019C821 /* PNPhotoListViewCell.m */,
+				2974F4A318495826002D4C9E /* UIColor+Palette.h */,
+				2974F4A418495826002D4C9E /* UIColor+Palette.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -429,6 +434,7 @@
 				29CF882718485977006A163C /* PNPhoto.m in Sources */,
 				299DC353184816D70019C821 /* PNPhotoListView.m in Sources */,
 				299DC339184809030019C821 /* PNPhotoFetcher.m in Sources */,
+				2974F4A518495826002D4C9E /* UIColor+Palette.m in Sources */,
 				299DC356184817840019C821 /* PNPhotoListViewCell.m in Sources */,
 				295111B01845D1A3002A4754 /* PNViewController.m in Sources */,
 				29CF882A184870E1006A163C /* PNLocationFetcher.m in Sources */,
