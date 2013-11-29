@@ -21,6 +21,9 @@
 		295111BB1845D1A3002A4754 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2951119D1845D1A3002A4754 /* UIKit.framework */; };
 		295111C31845D1A3002A4754 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 295111C11845D1A3002A4754 /* InfoPlist.strings */; };
 		295111C51845D1A3002A4754 /* PhotosNearbyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 295111C41845D1A3002A4754 /* PhotosNearbyTests.m */; };
+		299DC339184809030019C821 /* PNPhotoFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 299DC338184809030019C821 /* PNPhotoFetcher.m */; };
+		299DC353184816D70019C821 /* PNPhotoListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 299DC352184816D70019C821 /* PNPhotoListView.m */; };
+		299DC356184817840019C821 /* PNPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 299DC355184817840019C821 /* PNPhotoView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,12 @@
 		295111C01845D1A3002A4754 /* PhotosNearbyTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PhotosNearbyTests-Info.plist"; sourceTree = "<group>"; };
 		295111C21845D1A3002A4754 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		295111C41845D1A3002A4754 /* PhotosNearbyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotosNearbyTests.m; sourceTree = "<group>"; };
+		299DC337184809030019C821 /* PNPhotoFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNPhotoFetcher.h; sourceTree = "<group>"; };
+		299DC338184809030019C821 /* PNPhotoFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNPhotoFetcher.m; sourceTree = "<group>"; };
+		299DC351184816D70019C821 /* PNPhotoListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNPhotoListView.h; sourceTree = "<group>"; };
+		299DC352184816D70019C821 /* PNPhotoListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNPhotoListView.m; sourceTree = "<group>"; };
+		299DC354184817840019C821 /* PNPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNPhotoView.h; sourceTree = "<group>"; };
+		299DC355184817840019C821 /* PNPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNPhotoView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,11 +121,12 @@
 		2951119F1845D1A3002A4754 /* PhotosNearby */ = {
 			isa = PBXGroup;
 			children = (
+				299DC31F184808680019C821 /* lib */,
+				299DC31E184804580019C821 /* Views */,
+				299DC31D1848044E0019C821 /* Models */,
 				295111A81845D1A3002A4754 /* PNAppDelegate.h */,
 				295111A91845D1A3002A4754 /* PNAppDelegate.m */,
 				295111AB1845D1A3002A4754 /* Main.storyboard */,
-				295111AE1845D1A3002A4754 /* PNViewController.h */,
-				295111AF1845D1A3002A4754 /* PNViewController.m */,
 				295111B11845D1A3002A4754 /* Images.xcassets */,
 				295111A01845D1A3002A4754 /* Supporting Files */,
 			);
@@ -150,6 +160,35 @@
 				295111C11845D1A3002A4754 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		299DC31D1848044E0019C821 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				299DC337184809030019C821 /* PNPhotoFetcher.h */,
+				299DC338184809030019C821 /* PNPhotoFetcher.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		299DC31E184804580019C821 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				295111AE1845D1A3002A4754 /* PNViewController.h */,
+				295111AF1845D1A3002A4754 /* PNViewController.m */,
+				299DC351184816D70019C821 /* PNPhotoListView.h */,
+				299DC352184816D70019C821 /* PNPhotoListView.m */,
+				299DC354184817840019C821 /* PNPhotoView.h */,
+				299DC355184817840019C821 /* PNPhotoView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		299DC31F184808680019C821 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = lib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,6 +290,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				295111AA1845D1A3002A4754 /* PNAppDelegate.m in Sources */,
+				299DC353184816D70019C821 /* PNPhotoListView.m in Sources */,
+				299DC339184809030019C821 /* PNPhotoFetcher.m in Sources */,
+				299DC356184817840019C821 /* PNPhotoView.m in Sources */,
 				295111B01845D1A3002A4754 /* PNViewController.m in Sources */,
 				295111A61845D1A3002A4754 /* main.m in Sources */,
 			);
@@ -382,6 +424,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhotosNearby/PhotosNearby-Prefix.pch";
 				INFOPLIST_FILE = "PhotosNearby/PhotosNearby-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -395,6 +441,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhotosNearby/PhotosNearby-Prefix.pch";
 				INFOPLIST_FILE = "PhotosNearby/PhotosNearby-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -461,6 +511,7 @@
 				295111CA1845D1A3002A4754 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		295111CB1845D1A3002A4754 /* Build configuration list for PBXNativeTarget "PhotosNearbyTests" */ = {
 			isa = XCConfigurationList;
@@ -469,6 +520,7 @@
 				295111CD1845D1A3002A4754 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

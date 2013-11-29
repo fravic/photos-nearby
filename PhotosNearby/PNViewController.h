@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PNPhotoFetcher.h"
 
-@interface PNViewController : UIViewController
+@interface PNViewController : UIViewController <PNPhotoFetcherDelegate>
 
 @end

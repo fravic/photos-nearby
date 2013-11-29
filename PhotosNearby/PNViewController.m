@@ -7,23 +7,40 @@
 //
 
 #import "PNViewController.h"
+#import "PNPhotoListView.h"
 
 @interface PNViewController ()
 
 @end
 
-@implementation PNViewController
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+@implementation PNViewController {
+    PNPhotoFetcher *_fetcher;
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    _fetcher = [[PNPhotoFetcher alloc] init];
+    [_fetcher fetchForDelegate:self];
+}
+
+- (void)didReceivePhotos:(NSArray *)photos {
+    NSLog(@"%@", photos);
+    [photos enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSDictionary *dict = (NSDictionary*)obj;
+
+        /*PNPhotoView *photo = [[PNPhotoView alloc] init];
+        photo.image = [dict objectForKey:@"image_url"];
+        photo.shutter = [dict objectForKey:@"shutter_speed"];
+        photo.aperture = [dict objectForKey:@"aperture"];
+        photo.iso = [dict objectForKey:@"iso"];
+        photo.lat = [[dict objectForKey:@"latitude"] floatValue];
+        photo.lng = [[dict objectForKey:@"longitude"] floatValue];*/
+    }];
+}
+
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end
