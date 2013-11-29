@@ -1,14 +1,13 @@
 //
-//  PNPhotoListView.h
+//  PNPhoto.m
 //  PhotosNearby
 //
 //  Created by Fravic Fernando on 11/28/13.
 //  Copyright (c) 2013 Fravic Fernando. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "PNPhotoListViewCell.h"
+#import "PNPhoto.h"
 
-@interface PNPhotoListView : UITableView
+@implementation PNPhoto
 
 @end

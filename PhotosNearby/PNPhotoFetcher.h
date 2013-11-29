@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PNPhoto.h"
 
 @interface PNPhotoFetcher : NSObject
 
 - (void)fetch;
+- (void)downloadImageForPhoto:(PNPhoto*)url;
 
 @property (nonatomic, retain) NSArray* results;
 

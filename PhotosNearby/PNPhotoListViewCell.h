@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PNPhotoView : UITableViewCell
+@interface PNPhotoListViewCell : UITableViewCell
     
 @property (nonatomic, retain) UIImage *image;
 @property (nonatomic, retain) NSDate *takenAt;

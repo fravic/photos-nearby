@@ -8,21 +8,24 @@
 
 #import "PNViewController.h"
 #import "PNPhotoListView.h"
+#import "PNPhoto.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
 
 
 @implementation PNViewController {
     PNPhotoFetcher *_fetcher;
+    NSMutableArray *_photos;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    _photos = [[NSMutableArray alloc] init];
     _fetcher = [[PNPhotoFetcher alloc] init];
     [_fetcher fetch];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePhotos) name:@"fetchedPhotos" object:_fetcher];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceivePhoto:) name:@"fetchedPhoto" object:_fetcher];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -31,7 +34,8 @@
 
 # pragma mark - Photo Fetcher Delegate
 
-- (void)didReceivePhotos {
+- (void)didReceivePhoto:(NSNotification*)notification {
+    [_photos addObject:[notification.userInfo objectForKey:@"photo"]];
     [self.tableView reloadData];
 }
 
@@ -42,27 +46,26 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _fetcher.results.count;
+    return _photos.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    PNPhotoListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[PNPhotoListViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    
-    cell.textLabel.text = [NSString stringWithFormat:@"Image #%d", indexPath.row];
-    cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
-    
-    NSDictionary *photoData = [_fetcher.results objectAtIndex:indexPath.row];
-    NSURL *imageURL = [NSURL URLWithString:[photoData objectForKey:@"image_url"]];
-    
-    [cell.imageView setImageWithURL:imageURL
-                   placeholderImage:[UIImage imageNamed:@"placeholder"]
-                            options:indexPath.row == 0 ? SDWebImageRefreshCached : 0];
+
+    PNPhoto *photo = [_photos objectAtIndex:indexPath.row];
+    [cell setImage:photo.image];
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat width = self.view.bounds.size.width;
+    PNPhoto *photo = [_photos objectAtIndex:indexPath.row];
+    return photo.image.size.height / photo.image.size.width * width;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
