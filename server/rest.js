@@ -20,8 +20,14 @@ exports.getJSON = function(options, onResult) {
         });
 
         res.on('end', function() {
-            var obj = JSON.parse(output);
-            onResult(res.statusCode, obj);
+            var obj;
+            try {
+                obj = JSON.parse(output);
+            } catch (e) {
+                obj = e.toString();
+            } finally {
+                onResult(res.statusCode, obj);
+            }
         });
     });
 

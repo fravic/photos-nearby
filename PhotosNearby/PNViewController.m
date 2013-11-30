@@ -37,7 +37,6 @@
     // Data needs to be reloaded on the main thread
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
-        NSLog(@"SIZE %f,%f", self.tableView.contentSize.width, self.tableView.contentSize.height);
     });
 }
 

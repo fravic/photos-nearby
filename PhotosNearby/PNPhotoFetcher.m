@@ -10,12 +10,11 @@
 #import "PNLocationFetcher.h"
 #import <SDWebImage/SDWebImageManager.h>
 
-#define API_URL_PHOTO_SEARCH @"https://api.500px.com/v1/photos/search"
-#define CONSUMER_KEY @"76rxNyJUalSRN318CBMHZLOxaCkQmberYDd9tGrN"
-
-#define IMAGE_SIZE 4
-#define SORT_BY @"rating"
-#define CATEGORIES @"Landscapes,City%20and%20Architecture"
+#if TARGET_IPHONE_SIMULATOR
+#define API_URL_PHOTO_SEARCH @"http://localhost:8080"
+#else
+#define API_URL_PHOTO_SEARCH @"http://54.202.155.62:8080"
+#endif
 
 @implementation PNPhotoFetcher {
     PNLocationFetcher *_locationFetcher;
@@ -34,14 +33,10 @@
 - (NSURL*)getPhotoSearchURL {
     float lat = _locationFetcher.lat;
     float lng = _locationFetcher.lng;
-    float range = 0.5f;
+    NSString *radius = @"0.5mi";
 
     NSMutableString *url = [NSMutableString stringWithString:API_URL_PHOTO_SEARCH];
-    [url appendString:[NSString stringWithFormat:@"?geo=%f,%f,%fmi", lat, lng, range]];
-    [url appendString:[NSString stringWithFormat:@"&image_size=%d", IMAGE_SIZE]];
-    [url appendString:[NSString stringWithFormat:@"&sort=%@", SORT_BY]];
-    [url appendString:[NSString stringWithFormat:@"&only=%@", CATEGORIES]];
-    [url appendString:[NSString stringWithFormat:@"&consumer_key=%@", CONSUMER_KEY]];
+    [url appendString:[NSString stringWithFormat:@"?lat=%f&lng=%f&radius=%@", lat, lng, radius]];
 
     return [NSURL URLWithString:url];
 }
@@ -61,10 +56,9 @@
 
 - (void)didReceivePhotoSearchData:(NSData*)data {
     NSError *error;
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data
+    NSArray *photos = [NSJSONSerialization JSONObjectWithData:data
                           options:kNilOptions
                           error:&error];
-    NSArray *photos = [json objectForKey:@"photos"];
     
     [photos enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSDictionary *dict = (NSDictionary*)obj;
