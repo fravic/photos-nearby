@@ -8,11 +8,13 @@ var API_URL_HOST = "api.500px.com";
 var PHOTO_SEARCH_PATH = "/v1/photos/search";
 var CATEGORIES = "Landscapes,City%20and%20Architecture";
 var CONSUMER_KEY = process.env.CONSUMER_KEY;
+var PAGE_SIZE = 20;
 
 app.get('/', function(req, res) {
     var lat = req.query.lat;
     var lng = req.query.lng;
     var radius = req.query.radius;
+    var page = req.query.page;
 
     if (!lat || !lng || !radius) {
         res.send(500, { error: 'Must specify lat, lng and radius!' });
@@ -23,6 +25,8 @@ app.get('/', function(req, res) {
     path += "&only=" + CATEGORIES;
     path += "&image_size=4";
     path += "&sort=rating";
+    path += "&rpp=" + PAGE_SIZE;
+    path += "&page=" + page;
     path += "&consumer_key=" + CONSUMER_KEY;
     
     var options = {
