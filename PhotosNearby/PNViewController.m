@@ -9,6 +9,7 @@
 #import "PNViewController.h"
 #import "PNPhotoListView.h"
 #import "PNPhoto.h"
+#import "PNSettingsButton.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
 
@@ -16,6 +17,7 @@
 @implementation PNViewController {
     PNPhotoFetcher *_fetcher;
     PNPhotoListViewCell *_activeCell;
+    PNSettingsButton *_settingsBtn;
 }
 
 - (void)viewDidLoad {
@@ -23,6 +25,11 @@
 
     _fetcher = [[PNPhotoFetcher alloc] init];
     [_fetcher fetch];
+    
+    CGRect settingsBtnFrame = CGRectMake(0, self.view.bounds.size.height-37.5, 110.0, 37.5);
+    _settingsBtn = [[PNSettingsButton alloc] initWithFrame:settingsBtnFrame];
+    _settingsBtn.radius = 0.5;
+    [self.view addSubview:_settingsBtn];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFetchPhotoList:) name:@"fetchedPhotoList" object:_fetcher];
 }

@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "PNPhotoFetcher.h"
+#import "PNPhotoListView.h"
 
-@interface PNViewController : UITableViewController
+@interface PNViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+
+@property IBOutlet PNPhotoListView *tableView;
 
 @end
