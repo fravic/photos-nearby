@@ -7,11 +7,20 @@
 //
 
 #import "PNPhotoListViewCell.h"
-#import <MapKit/MapKit.h>
+#import "PNPhotoAuxDataView.h"
 
 @implementation PNPhotoListViewCell {
     PNPhoto *_photo;
-    MKMapView *_mapView;
+    PNPhotoAuxDataView *_auxDataView;
+}
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        _auxDataView = [[PNPhotoAuxDataView alloc] init];
+        _auxDataView.alpha = 0.0f;
+        [self addSubview:_auxDataView];
+    }
+    return self;
 }
 
 - (void)setPhoto:(PNPhoto*)photo {
@@ -19,12 +28,19 @@
     if (photo.image) {
         [self.imageView setImage:photo.image];
     }
+    [_auxDataView updateFromPhoto:photo];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeImage:) name:@"imageChanged" object:photo];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeAuxData:) name:@"auxDataChanged" object:photo];
 }
 
 - (void)didChangeImage:(NSNotification*)notification {
     [self.imageView setImage:_photo.image];
     [self layoutSubviews];
+}
+
+- (void)didChangeAuxData:(NSNotification*)notification {
+    [_auxDataView updateFromPhoto:_photo];
 }
 
 - (void)layoutSubviews {
@@ -34,12 +50,7 @@
     CGRect imageFrame = CGRectMake(PN_PHOTO_LIST_VIEW_CELL_H_PAD/2, PN_PHOTO_LIST_VIEW_CELL_V_PAD/2, imageWidth,
         _photo.height/_photo.width * imageWidth);
     self.imageView.frame = imageFrame;
-    
-    if (_mapView) {
-        CGRect mapFrame = CGRectMake(PN_PHOTO_LIST_VIEW_CELL_H_PAD/2, PN_PHOTO_LIST_VIEW_CELL_V_PAD/2, imageWidth,
-            _photo.height/_photo.width * imageWidth);
-        _mapView.frame = mapFrame;
-    }
+    _auxDataView.frame = imageFrame;
 }
 
 - (void)setActive:(BOOL)active {
@@ -50,50 +61,22 @@
     }
 }
 
-- (void)addMapView {
-    _mapView = [[MKMapView alloc] init];
-    _mapView.alpha = 0.0f;
-    [self addSubview:_mapView];
-    [self layoutSubviews];
-}
-
-- (void)removeMapView {
-    [_mapView removeFromSuperview];
-}
-
 - (void)animateToActiveState {
-    [self addMapView];
-    
-    CGFloat imageWidth = self.bounds.size.width - PN_PHOTO_LIST_VIEW_CELL_H_PAD;
-    CGRect activeFrame = CGRectMake(0, PN_PHOTO_LIST_VIEW_CELL_V_PAD/2, imageWidth,
-                                    _photo.height/_photo.width * imageWidth);
-
     [UIView animateWithDuration:0.25f
                      animations:^{
-                         self.imageView.frame = activeFrame;
-                         _mapView.alpha = 1.0f;
+                         _auxDataView.alpha = 1.0f;
                      }
                      completion:^(BOOL finished){
                      }
      ];
-    
-    [UIView beginAnimations:@"reposition" context:NULL];
-
-    [UIView commitAnimations];
 }
 
 - (void)animateToDefaultState {
-    CGFloat imageWidth = self.bounds.size.width - PN_PHOTO_LIST_VIEW_CELL_H_PAD;
-    CGRect inactiveFrame = CGRectMake(PN_PHOTO_LIST_VIEW_CELL_H_PAD/2, PN_PHOTO_LIST_VIEW_CELL_V_PAD/2, imageWidth,
-                                    _photo.height/_photo.width * imageWidth);
-
     [UIView animateWithDuration:0.25f
                      animations:^{
-                         self.imageView.frame = inactiveFrame;
-                         _mapView.alpha = 0.0f;
+                         _auxDataView.alpha = 0.0f;
                      }
                      completion:^(BOOL finished){
-                         [self removeMapView];
                      }
      ];
 }

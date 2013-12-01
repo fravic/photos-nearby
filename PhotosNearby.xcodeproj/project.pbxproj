@@ -25,6 +25,7 @@
 		2974F4AF184A97BC002D4C9E /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 2974F4AE184A97BC002D4C9E /* assets */; };
 		2974F4B2184A98C6002D4C9E /* PNSettingsButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2974F4B1184A98C6002D4C9E /* PNSettingsButton.m */; };
 		2974F4B9184AAC6B002D4C9E /* UIFont+Styles.m in Sources */ = {isa = PBXBuildFile; fileRef = 2974F4B8184AAC6B002D4C9E /* UIFont+Styles.m */; };
+		2974F4BC184AC24D002D4C9E /* PNPhotoAuxDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2974F4BB184AC24D002D4C9E /* PNPhotoAuxDataView.m */; };
 		299DC339184809030019C821 /* PNPhotoFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 299DC338184809030019C821 /* PNPhotoFetcher.m */; };
 		299DC353184816D70019C821 /* PNPhotoListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 299DC352184816D70019C821 /* PNPhotoListView.m */; };
 		299DC356184817840019C821 /* PNPhotoListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 299DC355184817840019C821 /* PNPhotoListViewCell.m */; };
@@ -105,6 +106,8 @@
 		2974F4B1184A98C6002D4C9E /* PNSettingsButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNSettingsButton.m; sourceTree = "<group>"; };
 		2974F4B7184AAC6B002D4C9E /* UIFont+Styles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+Styles.h"; sourceTree = "<group>"; };
 		2974F4B8184AAC6B002D4C9E /* UIFont+Styles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+Styles.m"; sourceTree = "<group>"; };
+		2974F4BA184AC24D002D4C9E /* PNPhotoAuxDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNPhotoAuxDataView.h; sourceTree = "<group>"; };
+		2974F4BB184AC24D002D4C9E /* PNPhotoAuxDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNPhotoAuxDataView.m; sourceTree = "<group>"; };
 		299DC337184809030019C821 /* PNPhotoFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNPhotoFetcher.h; sourceTree = "<group>"; };
 		299DC338184809030019C821 /* PNPhotoFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNPhotoFetcher.m; sourceTree = "<group>"; };
 		299DC351184816D70019C821 /* PNPhotoListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNPhotoListView.h; sourceTree = "<group>"; };
@@ -253,6 +256,8 @@
 				299DC355184817840019C821 /* PNPhotoListViewCell.m */,
 				2974F4B0184A98C6002D4C9E /* PNSettingsButton.h */,
 				2974F4B1184A98C6002D4C9E /* PNSettingsButton.m */,
+				2974F4BA184AC24D002D4C9E /* PNPhotoAuxDataView.h */,
+				2974F4BB184AC24D002D4C9E /* PNPhotoAuxDataView.m */,
 				2974F4A318495826002D4C9E /* UIColor+Palette.h */,
 				2974F4A418495826002D4C9E /* UIColor+Palette.m */,
 				2974F4B7184AAC6B002D4C9E /* UIFont+Styles.h */,
@@ -454,6 +459,7 @@
 				299DC356184817840019C821 /* PNPhotoListViewCell.m in Sources */,
 				295111B01845D1A3002A4754 /* PNViewController.m in Sources */,
 				29CF882A184870E1006A163C /* PNLocationFetcher.m in Sources */,
+				2974F4BC184AC24D002D4C9E /* PNPhotoAuxDataView.m in Sources */,
 				295111A61845D1A3002A4754 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
