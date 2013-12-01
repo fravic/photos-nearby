@@ -12,5 +12,8 @@
 
 + (UIFont*)largeDemiBoldFont;
 + (UIFont*)largeFont;
++ (UIFont*)smallBoldFont;
++ (UIFont*)smallFont;
++ (UIFont*)xSmallFont;
 
 @end

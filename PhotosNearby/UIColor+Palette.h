@@ -11,5 +11,7 @@
 @interface UIColor (Palette)
 
 + (UIColor*)pnDarkGrayColor;
++ (UIColor*)pnDarkGrayAlphaColor;
++ (UIColor*)whiteAlphaColor;
 
 @end

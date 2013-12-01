@@ -35,12 +35,18 @@
 }
 
 - (void)didChangeImage:(NSNotification*)notification {
-    [self.imageView setImage:_photo.image];
-    [self layoutSubviews];
+    // Data needs to be reloaded on the main thread
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.imageView setImage:_photo.image];
+        [self layoutSubviews];
+    });
 }
 
 - (void)didChangeAuxData:(NSNotification*)notification {
-    [_auxDataView updateFromPhoto:_photo];
+    // Data needs to be reloaded on the main thread
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_auxDataView updateFromPhoto:_photo];
+    });
 }
 
 - (void)layoutSubviews {
@@ -79,6 +85,10 @@
                      completion:^(BOOL finished){
                      }
      ];
+}
+
+- (void)prepareForReuse {
+    _auxDataView.alpha = 0.0f;
 }
 
 @end

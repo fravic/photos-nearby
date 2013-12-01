@@ -26,8 +26,19 @@
 
 - (void)setRadius:(float)radius {
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.1fmi", radius]];
-    [attrStr addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont largeDemiBoldFont], NSFontAttributeName, nil] range:NSMakeRange(0, 3)];
-    [attrStr addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[[UIColor whiteColor] colorWithAlphaComponent:0.5f], NSForegroundColorAttributeName, [UIFont largeFont], NSFontAttributeName, nil] range:NSMakeRange(3, 2)];
+
+    [attrStr addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                            [UIColor whiteColor], NSForegroundColorAttributeName,
+                            [UIFont largeDemiBoldFont], NSFontAttributeName,
+                            nil]
+                     range:NSMakeRange(0, 3)];
+
+    [attrStr addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                            [UIColor whiteAlphaColor], NSForegroundColorAttributeName,
+                            [UIFont largeFont], NSFontAttributeName,
+                            nil]
+                     range:NSMakeRange(3, 2)];
+
     [self setAttributedTitle:attrStr forState:UIControlStateNormal];
 }
 

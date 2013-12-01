@@ -18,4 +18,16 @@
     return [UIFont fontWithName:@"AvenirNext-Regular" size:19.0f];
 }
 
++ (UIFont*)smallBoldFont {
+    return [UIFont fontWithName:@"AvenirNext-Bold" size:14.0f];
+}
+
++ (UIFont*)smallFont {
+    return [UIFont fontWithName:@"AvenirNext-Regular" size:14.0f];
+}
+
++ (UIFont*)xSmallFont {
+    return [UIFont fontWithName:@"AvenirNext-Regular" size:11.0f];
+}
+
 @end
