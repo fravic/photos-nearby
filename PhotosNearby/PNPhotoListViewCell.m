@@ -103,15 +103,6 @@
 
 - (void)setPhotoHidden:(BOOL)hidden {
     _auxDataView.hidden = self.imageView.hidden = hidden;
-    if (!hidden) {
-        [UIView animateWithDuration:0.25f
-                         animations:^{
-                             _auxDataView.alpha = 1.0f;
-                         }
-        ];
-    } else {
-        _auxDataView.alpha = 0;
-    }
 }
 
 @end

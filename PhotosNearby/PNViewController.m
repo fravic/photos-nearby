@@ -127,6 +127,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 - (void)mapViewControllerDidSelectBack {
     [_mapVC.view removeFromSuperview];
     [_activeCell setPhotoHidden:NO];
+    [_activeCell prepareForReuse]; // Hide aux data
+    [_activeCell setActive:NO];
+    _activeCell = NULL;
 }
 
 @end

@@ -10,6 +10,7 @@ var PHOTO_DATA_PATH = "/v1/photos";
 var CATEGORIES = "Landscapes,City%20and%20Architecture";
 var CONSUMER_KEY = process.env.CONSUMER_KEY;
 var PAGE_SIZE = 20;
+var IMAGE_SIZE = 4;
 
 // Returns the photo list for a given coordinate
 app.get('/', function(req, res) {
@@ -25,7 +26,7 @@ app.get('/', function(req, res) {
     var path = PHOTO_SEARCH_PATH;
     path += "?geo=" + lat + "," + lng + "," + radius;
     path += "&only=" + CATEGORIES;
-    path += "&image_size=4";
+    path += "&image_size=" + IMAGE_SIZE;
     path += "&sort=rating";
     path += "&rpp=" + PAGE_SIZE;
     path += "&page=" + page;
