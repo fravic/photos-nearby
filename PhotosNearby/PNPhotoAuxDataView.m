@@ -25,13 +25,16 @@
 
 - (CAGradientLayer*)blackGradientTop:(BOOL)top {
     UIColor *c1 = [UIColor colorWithWhite:0 alpha:0.0];
-    UIColor *c2 = [UIColor colorWithWhite:0 alpha:0.5];
-    NSArray *c =  [NSArray arrayWithObjects:(id)c1.CGColor, c2.CGColor, nil];
+    UIColor *c2 = [UIColor colorWithWhite:0 alpha:0.05];
+    UIColor *c3 = [UIColor colorWithWhite:0 alpha:0.5];
+    UIColor *c4 = [UIColor colorWithWhite:0 alpha:0.6];
+    NSArray *c =  [NSArray arrayWithObjects:(id)c1.CGColor, c2.CGColor, c3.CGColor, c4.CGColor, nil];
     
     NSNumber *l1 = [NSNumber numberWithFloat:0.0];
-    NSNumber *l2 = [NSNumber numberWithFloat:0.6];
-
-    NSArray *l = [NSArray arrayWithObjects:l1, l2, nil];
+    NSNumber *l2 = [NSNumber numberWithFloat:0.1];
+    NSNumber *l3 = [NSNumber numberWithFloat:0.6];
+    NSNumber *l4 = [NSNumber numberWithFloat:0.8];
+    NSArray *l = [NSArray arrayWithObjects:l1, l2, l3, l4, nil];
 
     CAGradientLayer *g = [CAGradientLayer layer];
     g.colors = c;
@@ -86,6 +89,12 @@
     return self;
 }
 
+- (CGFloat)widthOfVariedAttributedLabel:(UILabel*)label dividerIndex:(int)div {
+    CGSize s1 = [[_focalLengthLabel.text substringWithRange:NSMakeRange(0, div)] sizeWithAttributes:[_focalLengthLabel.attributedText attributesAtIndex:0 effectiveRange:0]];
+    CGSize s2 = [[_focalLengthLabel.text substringWithRange:NSMakeRange(div, 2)] sizeWithAttributes:[_focalLengthLabel.attributedText attributesAtIndex:div effectiveRange:0]];
+    return s1.width + s2.width;
+}
+
 - (void)layoutSubviews {
     _topBar.frame = CGRectMake(0, 0, self.bounds.size.width, 50);
     [_topBar.layer.sublayers.firstObject setFrame:_topBar.bounds];
@@ -93,15 +102,20 @@
     _bottomBar.frame = CGRectMake(0, self.bounds.size.height - 50, self.bounds.size.width, 50);
     [_bottomBar.layer.sublayers.firstObject setFrame:_bottomBar.bounds];
 
-    _mapButton.frame = CGRectMake(self.bounds.size.width - 40.0 -PN_PHOTO_AUX_DATA_EDGE_PADDING,
+    _mapButton.frame = CGRectMake(self.bounds.size.width - 40.0 - PN_PHOTO_AUX_DATA_EDGE_PADDING,
                                   PN_PHOTO_AUX_DATA_EDGE_PADDING,
                                   40, 35.0);
-    _timeLabel.frame = CGRectMake(CGRectGetMinX(_mapButton.frame) - 100.0 - 10.0,
+    _timeLabel.frame = CGRectMake(CGRectGetMinX(_mapButton.frame) - 100.0 - PN_PHOTO_AUX_DATA_EDGE_PADDING,
                                   CGRectGetMinY(_mapButton.frame) + 2.0,
                                   100, 15.0);
     _dateLabel.frame = CGRectMake(CGRectGetMinX(_timeLabel.frame),
                                   CGRectGetMaxY(_timeLabel.frame),
                                   100, 15.0);
+    
+    CGFloat focalLengthW = [self widthOfVariedAttributedLabel:_focalLengthLabel dividerIndex:_focalLengthLabel.text.length-2];
+    _focalLengthLabel.frame = CGRectMake(self.bounds.size.width - focalLengthW - PN_PHOTO_AUX_DATA_EDGE_PADDING,
+                                        _bottomBar.bounds.size.height - 25.0 - PN_PHOTO_AUX_DATA_EDGE_PADDING,
+                                        focalLengthW, 25.0);
 }
 
 - (void)updateFromPhoto:(PNPhoto*)photo {
@@ -111,23 +125,51 @@
     [self setFocalLength:photo.focalLength];
     [self setDate:photo.takenAt];
     [self setTime:photo.takenAt];
-    [self setNeedsDisplay];
+    [self layoutSubviews];
 }
 
 - (void)setISO:(NSString*)iso {
-    
+    _isoLabel.hidden = (iso == NULL);
+    if (_isoLabel == NULL) {
+        return;
+    }
 }
 
 - (void)setAperture:(NSString*)aperture {
-    
+    _apertureLabel.hidden = (aperture == NULL);
+    if (aperture == NULL) {
+        return;
+    }
 }
 
 - (void)setShutterSpeed:(NSString*)shutterSpeed {
-    
+    _shutterSpeedLabel.hidden = (shutterSpeed == NULL);
+    if (shutterSpeed == NULL) {
+        return;
+    }
 }
 
 - (void)setFocalLength:(NSString*)focalLength {
+    _focalLengthLabel.hidden = (focalLength == NULL);
+    if (focalLength == NULL) {
+        return;
+    }
     
+    NSString *flString = [NSString stringWithFormat:@"%@mm", focalLength];
+    NSMutableAttributedString *flText = [[NSMutableAttributedString alloc] initWithString:flString];
+
+    [flText addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                             [UIFont smallBoldFont], NSFontAttributeName,
+                             [UIColor whiteColor], NSForegroundColorAttributeName,
+                             nil]
+                      range:NSMakeRange(0, flString.length - 2)];
+    [flText addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                             [UIFont smallFont], NSFontAttributeName,
+                             [UIColor whiteColor], NSForegroundColorAttributeName,
+                             nil]
+                      range:NSMakeRange(flString.length - 2, 2)];
+
+    _focalLengthLabel.attributedText = flText;
 }
 
 - (void)setDate:(NSDate*)date {
