@@ -97,8 +97,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_activeCell) {
         [_activeCell setActive:NO];
     }
-    _activeCell = (PNPhotoListViewCell*)[tableView cellForRowAtIndexPath:indexPath];
-    [_activeCell setActive:YES];
+    PNPhotoListViewCell *newActiveCell = (PNPhotoListViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+    if (_activeCell != newActiveCell) {
+        _activeCell = newActiveCell;
+        [_activeCell setActive:YES];
+    } else {
+        _activeCell = NULL;
+    }
 }
 
 @end

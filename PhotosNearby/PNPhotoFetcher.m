@@ -97,6 +97,10 @@
     [self fetchDataForPhotos:self.results];
 }
 
+- (BOOL)isEffectivelyNull:(NSString*)obj {
+    return [obj isKindOfClass:NSNull.class] || [obj isEqualToString:@""];
+}
+
 - (void)didReceivePhotoAuxData:(NSData*)data {
     NSError *error;
     NSArray *photos = [NSJSONSerialization JSONObjectWithData:data
@@ -116,10 +120,15 @@
             takenAt = [dateFormat dateFromString:takenAtStr];
         }
         
-        [photo setFocalLength:[dict objectForKey:@"focal_length"]
-                          iso:[dict objectForKey:@"iso"]
-                 shutterSpeed:[dict objectForKey:@"shutter_speed"]
-                     aperture:[dict objectForKey:@"aperture"]
+        NSString *focalLength = [dict objectForKey:@"focal_length"];
+        NSString *iso = [dict objectForKey:@"iso"];
+        NSString *shutterSpeed = [dict objectForKey:@"shutter_speed"];
+        NSString *aperture = [dict objectForKey:@"aperture"];
+
+        [photo setFocalLength:(![self isEffectivelyNull:focalLength] ? focalLength : NULL)
+                          iso:(![self isEffectivelyNull:iso] ? iso : NULL)
+                 shutterSpeed:(![self isEffectivelyNull:shutterSpeed] ? shutterSpeed : NULL)
+                     aperture:(![self isEffectivelyNull:aperture] ? aperture : NULL)
                       takenAt:takenAt];
     }];
 }
