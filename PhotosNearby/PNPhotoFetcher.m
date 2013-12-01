@@ -12,12 +12,15 @@
 
 #if TARGET_IPHONE_SIMULATOR
 #define API_URL_PHOTO_SEARCH @"http://localhost:8080"
+#define API_URL_PHOTO_DATA @"http://localhost:8080/data"
 #else
 #define API_URL_PHOTO_SEARCH @"http://54.202.155.62:8080"
+#define API_URL_PHOTO_DATA @"http://54.202.155.62:8080/data"
 #endif
 
 @implementation PNPhotoFetcher {
     PNLocationFetcher *_locationFetcher;
+    NSMutableDictionary *_photosById;
 }
 
 @synthesize results;
@@ -25,6 +28,7 @@
 - (id)init {
     if (self = [super init]) {
         _locationFetcher = [[PNLocationFetcher alloc] init];
+        _photosById = [[NSMutableDictionary alloc] init];
         self.results = [[NSMutableArray alloc] init];
     }
     return self;
@@ -38,6 +42,17 @@
     NSMutableString *url = [NSMutableString stringWithString:API_URL_PHOTO_SEARCH];
     [url appendString:[NSString stringWithFormat:@"?lat=%f&lng=%f&radius=%@", lat, lng, radius]];
 
+    return [NSURL URLWithString:url];
+}
+
+- (NSURL*)getDataURLForPhotos:(NSArray*)photos {
+    NSMutableString *photoIds = [[NSMutableString alloc] init];
+    [photos enumerateObjectsUsingBlock:^(PNPhoto* obj, NSUInteger idx, BOOL *stop) {
+        [photoIds appendString:[NSString stringWithFormat:@"%d,", obj.photoId]];
+    }];
+    NSMutableString *url = [NSMutableString stringWithString:API_URL_PHOTO_DATA];
+    [url appendString:[NSString stringWithFormat:@"?photos=%@", photoIds]];
+    
     return [NSURL URLWithString:url];
 }
 
@@ -64,24 +79,48 @@
         NSDictionary *dict = (NSDictionary*)obj;
         
         PNPhoto *photo = [[PNPhoto alloc] init];
+        photo.photoId = [[dict objectForKey:@"id"] integerValue];
         photo.imageURL = [dict objectForKey:@"image_url"];
         photo.width = [[dict objectForKey:@"width"] floatValue];
         photo.height = [[dict objectForKey:@"height"] floatValue];
         photo.lat = [[dict objectForKey:@"latitude"] floatValue];
         photo.lng = [[dict objectForKey:@"longitude"] floatValue];
+
         [self.results addObject:photo];
-        
+        [_photosById setObject:photo forKey:[NSNumber numberWithInt:photo.photoId]];
+
         [self downloadImageForPhoto:photo];
     }];
     
-    //
-    // TODO: SORT RESULTS HERE
-    //
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"fetchedPhotoList" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.results, @"photos", nil]];
     
-    [self.results enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [self downloadImageForPhoto:obj];
+    [self fetchDataForPhotos:self.results];
+}
+
+- (void)didReceivePhotoAuxData:(NSData*)data {
+    NSError *error;
+    NSArray *photos = [NSJSONSerialization JSONObjectWithData:data
+                                                      options:kNilOptions
+                                                        error:&error];
+    
+    [photos enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSDictionary *dict = (NSDictionary*)obj;
+        
+        PNPhoto *photo = [_photosById objectForKey:[NSNumber numberWithInt:[[dict objectForKey:@"id"] integerValue]]];
+
+        NSString *takenAtStr = [dict objectForKey:@"taken_at"];
+        NSDate *takenAt = NULL;
+        if (![takenAtStr isKindOfClass:NSNull.class]) {
+            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+            [dateFormat setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ssZZZZZ"];
+            takenAt = [dateFormat dateFromString:takenAtStr];
+        }
+        
+        [photo setFocalLength:[dict objectForKey:@"focal_length"]
+                          iso:[dict objectForKey:@"iso"]
+                 shutterSpeed:[dict objectForKey:@"shutter_speed"]
+                     aperture:[dict objectForKey:@"aperture"]
+                      takenAt:takenAt];
     }];
 }
 
@@ -110,5 +149,20 @@
     ];
 }
 
+- (void)fetchDataForPhotos:(NSArray*)photos {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[self getDataURLForPhotos:photos]];
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    
+    // Perform request and get JSON back as a NSData object
+    [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
+        if (!data) {
+            NSLog(@"%@", error);
+        } else {
+            [self didReceivePhotoAuxData:data];
+        }
+    }];
+}
 
 @end

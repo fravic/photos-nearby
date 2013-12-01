@@ -72,11 +72,19 @@ app.get('/data', function(req, res) {
         return false;
     }
     photoIds = photoIds.split(",");
+    photoIds = photoIds.filter(function(pid) {
+        return !isNaN(parseFloat(pid)) && isFinite(pid); // isNumeric
+    });
     var photos = [];
 
     res.statusCode = 200;
 
+    // TODO: Should add a timeout here
     photoIds.forEach(function(pid) {
+        if (!pid) {
+            return true
+        }
+
         var path = PHOTO_DATA_PATH;
         path += "/" + pid;
         path += "?consumer_key=" + CONSUMER_KEY;
