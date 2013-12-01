@@ -22,4 +22,8 @@
     return [[UIColor whiteColor] colorWithAlphaComponent:0.7f];
 }
 
++ (UIColor*)pnBlueAlphaColor {
+    return [UIColor colorWithRed:(48.0/255.0) green:(139.0/255.0) blue:(214.0/255.0) alpha:0.7f];
+}
+
 @end

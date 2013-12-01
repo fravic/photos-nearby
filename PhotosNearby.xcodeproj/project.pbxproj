@@ -39,6 +39,7 @@
 		29CF8824184830B1006A163C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29CF8823184830B1006A163C /* ImageIO.framework */; };
 		29CF882718485977006A163C /* PNPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 29CF882618485977006A163C /* PNPhoto.m */; };
 		29CF882A184870E1006A163C /* PNLocationFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 29CF8829184870E1006A163C /* PNLocationFetcher.m */; };
+		29EEDA7E184B02870088A1CC /* PNMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EEDA7D184B02870088A1CC /* PNMapViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,6 +127,8 @@
 		29CF882618485977006A163C /* PNPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNPhoto.m; sourceTree = "<group>"; };
 		29CF8828184870E1006A163C /* PNLocationFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNLocationFetcher.h; sourceTree = "<group>"; };
 		29CF8829184870E1006A163C /* PNLocationFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNLocationFetcher.m; sourceTree = "<group>"; };
+		29EEDA7C184B02870088A1CC /* PNMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNMapViewController.h; sourceTree = "<group>"; };
+		29EEDA7D184B02870088A1CC /* PNMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNMapViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,6 +265,8 @@
 				2974F4A418495826002D4C9E /* UIColor+Palette.m */,
 				2974F4B7184AAC6B002D4C9E /* UIFont+Styles.h */,
 				2974F4B8184AAC6B002D4C9E /* UIFont+Styles.m */,
+				29EEDA7C184B02870088A1CC /* PNMapViewController.h */,
+				29EEDA7D184B02870088A1CC /* PNMapViewController.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -451,6 +456,7 @@
 			files = (
 				295111AA1845D1A3002A4754 /* PNAppDelegate.m in Sources */,
 				29CF882718485977006A163C /* PNPhoto.m in Sources */,
+				29EEDA7E184B02870088A1CC /* PNMapViewController.m in Sources */,
 				2974F4B9184AAC6B002D4C9E /* UIFont+Styles.m in Sources */,
 				299DC353184816D70019C821 /* PNPhotoListView.m in Sources */,
 				299DC339184809030019C821 /* PNPhotoFetcher.m in Sources */,

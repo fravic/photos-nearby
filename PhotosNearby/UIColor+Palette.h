@@ -12,6 +12,7 @@
 
 + (UIColor*)pnDarkGrayColor;
 + (UIColor*)pnDarkGrayAlphaColor;
++ (UIColor*)pnBlueAlphaColor;
 + (UIColor*)whiteAlphaColor;
 
 @end

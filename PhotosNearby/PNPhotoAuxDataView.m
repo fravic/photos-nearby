@@ -8,7 +8,7 @@
 
 #import "PNPhotoAuxDataView.h"
 
-#define PN_PHOTO_AUX_DATA_EDGE_PADDING 5.0f
+#define PN_PHOTO_AUX_DATA_EDGE_PADDING 6.0f
 
 @implementation PNPhotoAuxDataView {
     UIView *_topBar;
@@ -22,6 +22,8 @@
     UILabel *_shutterSpeedLabel;
     UILabel *_focalLengthLabel;
 }
+
+@synthesize mapButton=_mapButton;
 
 - (CAGradientLayer*)blackGradientTop:(BOOL)top {
     UIColor *c1 = [UIColor colorWithWhite:0 alpha:0.0];
@@ -62,8 +64,9 @@
         [_mapButton setImage:[UIImage imageNamed:@"assets/icon_map.png"] forState:UIControlStateNormal];
         _mapButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
         _mapButton.imageEdgeInsets = UIEdgeInsetsMake(5, 0, 5, 0);
-        [_mapButton setBackgroundColor:[[UIColor pnDarkGrayColor] colorWithAlphaComponent:0.7f]];
+        [_mapButton setBackgroundColor:[UIColor pnBlueAlphaColor]];
         _mapButton.layer.cornerRadius = 2.0f;
+        _mapButton.adjustsImageWhenHighlighted = NO;
 
         _apertureLabel = [[UILabel alloc] init];
         _isoLabel = [[UILabel alloc] init];
@@ -109,8 +112,11 @@
     _mapButton.frame = CGRectMake(self.bounds.size.width - 40.0 - PN_PHOTO_AUX_DATA_EDGE_PADDING,
                                   PN_PHOTO_AUX_DATA_EDGE_PADDING,
                                   40, 35.0);
-    _timeLabel.frame = CGRectMake(CGRectGetMinX(_mapButton.frame) - 100.0 - PN_PHOTO_AUX_DATA_EDGE_PADDING,
-                                  CGRectGetMinY(_mapButton.frame) + 2.0,
+    
+    CGFloat mapButtonMinX = _mapButton.hidden ? self.bounds.size.width : CGRectGetMinX(_mapButton.frame);
+    
+    _timeLabel.frame = CGRectMake(mapButtonMinX - 100.0 - PN_PHOTO_AUX_DATA_EDGE_PADDING,
+                                  CGRectGetMinY(_mapButton.frame) + 3.0,
                                   100, 15.0);
     _dateLabel.frame = CGRectMake(CGRectGetMinX(_timeLabel.frame),
                                   CGRectGetMaxY(_timeLabel.frame),
@@ -120,17 +126,17 @@
     CGFloat isoW = [self widthOfVariedAttributedLabel:_isoLabel dividerIndex:4];
     CGFloat shutterSpeedW = [self widthOfVariedAttributedLabel:_shutterSpeedLabel dividerIndex:_shutterSpeedLabel.text.length-1];
     CGFloat focalLengthW = [self widthOfVariedAttributedLabel:_focalLengthLabel dividerIndex:_focalLengthLabel.text.length-2];
-    CGFloat bottomLabelY = _bottomBar.bounds.size.height - 25.0 - PN_PHOTO_AUX_DATA_EDGE_PADDING;
+    CGFloat bottomLabelY = _bottomBar.bounds.size.height - 25.0;
     int numNonZero = (apertureW ? 1 : 0) + (isoW ? 1 : 0) + (shutterSpeedW ? 1 : 0) + (focalLengthW ? 1 : 0);
     CGFloat bottomLabelSpacing = (self.bounds.size.width - PN_PHOTO_AUX_DATA_EDGE_PADDING*2 - apertureW - isoW - shutterSpeedW - focalLengthW)/(numNonZero - 1);
     
-    _apertureLabel.frame = CGRectMake(PN_PHOTO_AUX_DATA_EDGE_PADDING,
+    _apertureLabel.frame = CGRectMake(self.bounds.size.width - PN_PHOTO_AUX_DATA_EDGE_PADDING - focalLengthW - shutterSpeedW - isoW - apertureW - (focalLengthW ? bottomLabelSpacing : 0) - (shutterSpeedW ? bottomLabelSpacing : 0) - (isoW ? bottomLabelSpacing: 0),
                                       bottomLabelY, apertureW, 25.0);
-    _isoLabel.frame = CGRectMake(PN_PHOTO_AUX_DATA_EDGE_PADDING + apertureW + (apertureW ? bottomLabelSpacing : 0),
+    _isoLabel.frame = CGRectMake(self.bounds.size.width - PN_PHOTO_AUX_DATA_EDGE_PADDING - focalLengthW - shutterSpeedW - isoW - (focalLengthW ? bottomLabelSpacing : 0) - (shutterSpeedW ? bottomLabelSpacing : 0),
                                  bottomLabelY, isoW, 25.0);
-    _shutterSpeedLabel.frame = CGRectMake(PN_PHOTO_AUX_DATA_EDGE_PADDING + apertureW + isoW + (apertureW ? bottomLabelSpacing : 0) + (isoW ? bottomLabelSpacing : 0),
+    _shutterSpeedLabel.frame = CGRectMake(self.bounds.size.width - PN_PHOTO_AUX_DATA_EDGE_PADDING - focalLengthW - shutterSpeedW - (focalLengthW ? bottomLabelSpacing : 0),
                                           bottomLabelY, shutterSpeedW, 25.0);
-    _focalLengthLabel.frame = CGRectMake(PN_PHOTO_AUX_DATA_EDGE_PADDING + apertureW + isoW + shutterSpeedW + + (apertureW ? bottomLabelSpacing : 0) + (isoW ? bottomLabelSpacing : 0) + (shutterSpeedW ? bottomLabelSpacing : 0),
+    _focalLengthLabel.frame = CGRectMake(self.bounds.size.width - PN_PHOTO_AUX_DATA_EDGE_PADDING - focalLengthW,
                                          bottomLabelY, focalLengthW, 25.0);
 }
 
@@ -199,7 +205,8 @@
         return;
     }
     
-    NSString *string = [NSString stringWithFormat:@"%@s", shutterSpeed];
+    NSRange deciRange = [shutterSpeed rangeOfString:@"."];
+    NSString *string = [NSString stringWithFormat:@"%@s", [shutterSpeed substringToIndex:MIN(shutterSpeed.length, deciRange.location + 3)]];
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:string];
     
     [text addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -281,6 +288,11 @@
                       range:NSMakeRange(timeString.length - 2, 2)];
 
     _timeLabel.attributedText = timeText;
+}
+
+- (void)setGradientsHidden:(BOOL)hidden {
+    ((CALayer*)_topBar.layer.sublayers.firstObject).hidden = hidden;
+    ((CALayer*)_bottomBar.layer.sublayers.firstObject).hidden = hidden;
 }
 
 @end

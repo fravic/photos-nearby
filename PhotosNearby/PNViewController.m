@@ -18,6 +18,7 @@
     PNPhotoFetcher *_fetcher;
     PNPhotoListViewCell *_activeCell;
     PNSettingsButton *_settingsBtn;
+    PNMapViewController *_mapVC;
 }
 
 - (void)viewDidLoad {
@@ -63,6 +64,7 @@
     PNPhotoListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[PNPhotoListViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        [cell setDelegate:self];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 
@@ -85,7 +87,7 @@
 }
 
 -(float)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return  22.0;
+    return 22.0;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell
@@ -104,6 +106,27 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     } else {
         _activeCell = NULL;
     }
+}
+
+- (void)didTapMapButtonInCell:(PNPhotoListViewCell*)cell {
+    _mapVC = [[PNMapViewController alloc] init];
+    [_mapVC setDelegate:self];
+    [_mapVC setPhoto:cell.photo];
+    [_activeCell setPhotoHidden:YES];
+    
+    CGRect cellRect = [self.tableView rectForRowAtIndexPath:[self.tableView indexPathForCell:cell]];
+    CGRect imgRect = CGRectMake(cellRect.origin.x + cell.imageView.frame.origin.x,
+                                cellRect.origin.y + cell.imageView.frame.origin.y,
+                                cell.imageView.frame.size.width, cell.imageView.frame.size.height);
+    CGRect imgRectInView = [self.tableView convertRect:imgRect toView:self.view];
+    
+    [self.view addSubview:_mapVC.view];
+    [_mapVC animateInitialPhotoPosition:imgRectInView];
+}
+
+- (void)mapViewControllerDidSelectBack {
+    [_mapVC.view removeFromSuperview];
+    [_activeCell setPhotoHidden:NO];
 }
 
 @end

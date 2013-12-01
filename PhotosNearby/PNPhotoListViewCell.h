@@ -12,9 +12,18 @@
 #define PN_PHOTO_LIST_VIEW_CELL_H_PAD 10
 #define PN_PHOTO_LIST_VIEW_CELL_V_PAD 10
 
+@class PNPhotoListViewCell;
+
+@protocol PNPhotoListViewCellDelegate <NSObject>
+- (void)didTapMapButtonInCell:(PNPhotoListViewCell*)cell;
+@end
+
 @interface PNPhotoListViewCell : UITableViewCell
-    
-- (void)setPhoto:(PNPhoto*)photo;
+
 - (void)setActive:(BOOL)active;
+- (void)setDelegate:(id<PNPhotoListViewCellDelegate>)active;
+- (void)setPhotoHidden:(BOOL)hidden;
+
+@property (nonatomic, retain, setter=setPhoto:) PNPhoto* photo;
 
 @end

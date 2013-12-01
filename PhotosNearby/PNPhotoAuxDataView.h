@@ -12,5 +12,8 @@
 @interface PNPhotoAuxDataView : UIView
 
 - (void)updateFromPhoto:(PNPhoto*)photo;
+- (void)setGradientsHidden:(BOOL)hidden;
+
+@property (nonatomic, retain) UIButton *mapButton;
 
 @end

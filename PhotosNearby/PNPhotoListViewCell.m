@@ -10,6 +10,7 @@
 #import "PNPhotoAuxDataView.h"
 
 @implementation PNPhotoListViewCell {
+    id<PNPhotoListViewCellDelegate> _delegate;
     PNPhoto *_photo;
     PNPhotoAuxDataView *_auxDataView;
 }
@@ -18,9 +19,14 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         _auxDataView = [[PNPhotoAuxDataView alloc] init];
         _auxDataView.alpha = 0.0f;
+        [_auxDataView.mapButton addTarget:self action:@selector(didSelectMapButton:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_auxDataView];
     }
     return self;
+}
+
+- (void)setDelegate:(id<PNPhotoListViewCellDelegate>)delegate {
+    _delegate = delegate;
 }
 
 - (void)setPhoto:(PNPhoto*)photo {
@@ -53,8 +59,8 @@
     [super layoutSubviews];
     
     CGFloat imageWidth = self.bounds.size.width - PN_PHOTO_LIST_VIEW_CELL_H_PAD;
-    CGRect imageFrame = CGRectMake(PN_PHOTO_LIST_VIEW_CELL_H_PAD/2, PN_PHOTO_LIST_VIEW_CELL_V_PAD/2, imageWidth,
-        _photo.height/_photo.width * imageWidth);
+    CGRect imageFrame = CGRectMake(PN_PHOTO_LIST_VIEW_CELL_H_PAD/2, 0, imageWidth,
+        _photo.height/_photo.width * imageWidth - PN_PHOTO_LIST_VIEW_CELL_V_PAD/2);
     self.imageView.frame = imageFrame;
     _auxDataView.frame = imageFrame;
 }
@@ -74,7 +80,7 @@
                      }
                      completion:^(BOOL finished){
                      }
-     ];
+    ];
 }
 
 - (void)animateToDefaultState {
@@ -84,11 +90,28 @@
                      }
                      completion:^(BOOL finished){
                      }
-     ];
+    ];
 }
 
 - (void)prepareForReuse {
     _auxDataView.alpha = 0.0f;
+}
+
+- (void)didSelectMapButton:(UIButton*)btn {
+    [_delegate didTapMapButtonInCell:self];
+}
+
+- (void)setPhotoHidden:(BOOL)hidden {
+    _auxDataView.hidden = self.imageView.hidden = hidden;
+    if (!hidden) {
+        [UIView animateWithDuration:0.25f
+                         animations:^{
+                             _auxDataView.alpha = 1.0f;
+                         }
+        ];
+    } else {
+        _auxDataView.alpha = 0;
+    }
 }
 
 @end

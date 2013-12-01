@@ -10,6 +10,7 @@
 
 @implementation PNPhoto {
     UIImage *_image;
+    
 }
 
 @synthesize width, height, lat, lng, imageURL, image=_image;
