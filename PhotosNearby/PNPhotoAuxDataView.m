@@ -94,7 +94,6 @@
         // Label likely has no content
         return 0;
     }
-    NSLog(@"%@", label.text);
     CGSize s1 = [[label.text substringWithRange:NSMakeRange(0, div)] sizeWithAttributes:[label.attributedText attributesAtIndex:0 effectiveRange:NULL]];
     CGSize s2 = [[label.text substringWithRange:NSMakeRange(div, label.text.length-div)] sizeWithAttributes:[label.attributedText attributesAtIndex:div effectiveRange:NULL]];
     return s1.width + s2.width;
@@ -118,15 +117,21 @@
                                   100, 15.0);
     
     CGFloat apertureW = [self widthOfVariedAttributedLabel:_apertureLabel dividerIndex:2];
-    CGFloat isoW = [self widthOfVariedAttributedLabel:_isoLabel dividerIndex:5];
-    CGFloat shutterSpeedW = [self widthOfVariedAttributedLabel:_shutterSpeedLabel dividerIndex:_shutterSpeedLabel.text.length-3];
+    CGFloat isoW = [self widthOfVariedAttributedLabel:_isoLabel dividerIndex:4];
+    CGFloat shutterSpeedW = [self widthOfVariedAttributedLabel:_shutterSpeedLabel dividerIndex:_shutterSpeedLabel.text.length-1];
     CGFloat focalLengthW = [self widthOfVariedAttributedLabel:_focalLengthLabel dividerIndex:_focalLengthLabel.text.length-2];
     CGFloat bottomLabelY = _bottomBar.bounds.size.height - 25.0 - PN_PHOTO_AUX_DATA_EDGE_PADDING;
+    int numNonZero = (apertureW ? 1 : 0) + (isoW ? 1 : 0) + (shutterSpeedW ? 1 : 0) + (focalLengthW ? 1 : 0);
+    CGFloat bottomLabelSpacing = (self.bounds.size.width - PN_PHOTO_AUX_DATA_EDGE_PADDING*2 - apertureW - isoW - shutterSpeedW - focalLengthW)/(numNonZero - 1);
     
     _apertureLabel.frame = CGRectMake(PN_PHOTO_AUX_DATA_EDGE_PADDING,
-                                         bottomLabelY, apertureW, 25.0);
-    _focalLengthLabel.frame = CGRectMake(self.bounds.size.width - focalLengthW - PN_PHOTO_AUX_DATA_EDGE_PADDING,
-                                        bottomLabelY, focalLengthW, 25.0);
+                                      bottomLabelY, apertureW, 25.0);
+    _isoLabel.frame = CGRectMake(PN_PHOTO_AUX_DATA_EDGE_PADDING + apertureW + (apertureW ? bottomLabelSpacing : 0),
+                                 bottomLabelY, isoW, 25.0);
+    _shutterSpeedLabel.frame = CGRectMake(PN_PHOTO_AUX_DATA_EDGE_PADDING + apertureW + isoW + (apertureW ? bottomLabelSpacing : 0) + (isoW ? bottomLabelSpacing : 0),
+                                          bottomLabelY, shutterSpeedW, 25.0);
+    _focalLengthLabel.frame = CGRectMake(PN_PHOTO_AUX_DATA_EDGE_PADDING + apertureW + isoW + shutterSpeedW + + (apertureW ? bottomLabelSpacing : 0) + (isoW ? bottomLabelSpacing : 0) + (shutterSpeedW ? bottomLabelSpacing : 0),
+                                         bottomLabelY, focalLengthW, 25.0);
 }
 
 - (void)updateFromPhoto:(PNPhoto*)photo {
@@ -143,15 +148,31 @@
 }
 
 - (void)setISO:(NSString*)iso {
-    _isoLabel.hidden = (iso == NULL);
-    if (_isoLabel == NULL) {
+    if (iso == nil) {
+        _isoLabel.text = nil;
         return;
     }
+    
+    NSString *string = [NSString stringWithFormat:@"ISO %@", iso];
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:string];
+    
+    [text addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                         [UIFont smallFont], NSFontAttributeName,
+                         [UIColor whiteColor], NSForegroundColorAttributeName,
+                         nil]
+                  range:NSMakeRange(0, 4)];
+    [text addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                         [UIFont smallBoldFont], NSFontAttributeName,
+                         [UIColor whiteColor], NSForegroundColorAttributeName,
+                         nil]
+                  range:NSMakeRange(4, string.length-4)];
+    
+    _isoLabel.attributedText = text;
 }
 
 - (void)setAperture:(NSString*)aperture {
-    _apertureLabel.hidden = (aperture == NULL);
-    if (aperture == NULL) {
+    if (aperture == nil) {
+        _apertureLabel.text = nil;
         return;
     }
     
@@ -173,38 +194,54 @@
 }
 
 - (void)setShutterSpeed:(NSString*)shutterSpeed {
-    _shutterSpeedLabel.hidden = (shutterSpeed == NULL);
-    if (shutterSpeed == NULL) {
-        return;
-    }
-}
-
-- (void)setFocalLength:(NSString*)focalLength {
-    _focalLengthLabel.hidden = (focalLength == NULL);
-    if (focalLength == NULL) {
+    if (shutterSpeed == nil) {
+        _shutterSpeedLabel.text = nil;
         return;
     }
     
-    NSString *flString = [NSString stringWithFormat:@"%@mm", focalLength];
-    NSMutableAttributedString *flText = [[NSMutableAttributedString alloc] initWithString:flString];
+    NSString *string = [NSString stringWithFormat:@"%@s", shutterSpeed];
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:string];
+    
+    [text addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                         [UIFont smallBoldFont], NSFontAttributeName,
+                         [UIColor whiteColor], NSForegroundColorAttributeName,
+                         nil]
+                  range:NSMakeRange(0, string.length-1)];
+    [text addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                         [UIFont smallFont], NSFontAttributeName,
+                         [UIColor whiteColor], NSForegroundColorAttributeName,
+                         nil]
+                  range:NSMakeRange(string.length-1, 1)];
+    
+    _shutterSpeedLabel.attributedText = text;
+}
 
-    [flText addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+- (void)setFocalLength:(NSString*)focalLength {
+    if (focalLength == nil) {
+        _focalLengthLabel.text = nil;
+        return;
+    }
+    
+    NSString *string = [NSString stringWithFormat:@"%@mm", focalLength];
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:string];
+
+    [text addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                              [UIFont smallBoldFont], NSFontAttributeName,
                              [UIColor whiteColor], NSForegroundColorAttributeName,
                              nil]
-                      range:NSMakeRange(0, flString.length - 2)];
-    [flText addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                      range:NSMakeRange(0, string.length - 2)];
+    [text addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                              [UIFont smallFont], NSFontAttributeName,
                              [UIColor whiteColor], NSForegroundColorAttributeName,
                              nil]
-                      range:NSMakeRange(flString.length - 2, 2)];
+                      range:NSMakeRange(string.length - 2, 2)];
 
-    _focalLengthLabel.attributedText = flText;
+    _focalLengthLabel.attributedText = text;
 }
 
 - (void)setDate:(NSDate*)date {
-    _dateLabel.hidden = (date == NULL);
-    if (date == NULL) {
+    if (date == nil) {
+        _dateLabel.text = nil;
         return;
     }
 
@@ -222,8 +259,8 @@
 }
 
 - (void)setTime:(NSDate*)time {
-    _timeLabel.hidden = (time == NULL);
-    if (time == NULL) {
+    if (time == nil) {
+        _timeLabel.text = nil;
         return;
     }
 

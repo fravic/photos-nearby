@@ -41,6 +41,7 @@
 
     NSMutableString *url = [NSMutableString stringWithString:API_URL_PHOTO_SEARCH];
     [url appendString:[NSString stringWithFormat:@"?lat=%f&lng=%f&radius=%@", lat, lng, radius]];
+    NSLog(@"%@", url);
 
     return [NSURL URLWithString:url];
 }
@@ -98,7 +99,7 @@
 }
 
 - (BOOL)isEffectivelyNull:(NSString*)obj {
-    return [obj isKindOfClass:NSNull.class] || [obj isEqualToString:@""];
+    return [obj isKindOfClass:NSNull.class] || [obj isEqualToString:@""] || obj == NULL || obj == nil;
 }
 
 - (void)didReceivePhotoAuxData:(NSData*)data {
@@ -113,7 +114,7 @@
         PNPhoto *photo = [_photosById objectForKey:[NSNumber numberWithInt:[[dict objectForKey:@"id"] integerValue]]];
 
         NSString *takenAtStr = [dict objectForKey:@"taken_at"];
-        NSDate *takenAt = NULL;
+        NSDate *takenAt = nil;
         if (![takenAtStr isKindOfClass:NSNull.class]) {
             NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
             [dateFormat setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ssZZZZZ"];
@@ -125,10 +126,10 @@
         NSString *shutterSpeed = [dict objectForKey:@"shutter_speed"];
         NSString *aperture = [dict objectForKey:@"aperture"];
 
-        [photo setFocalLength:(![self isEffectivelyNull:focalLength] ? focalLength : NULL)
-                          iso:(![self isEffectivelyNull:iso] ? iso : NULL)
-                 shutterSpeed:(![self isEffectivelyNull:shutterSpeed] ? shutterSpeed : NULL)
-                     aperture:(![self isEffectivelyNull:aperture] ? aperture : NULL)
+        [photo setFocalLength:(![self isEffectivelyNull:focalLength] ? focalLength : nil)
+                          iso:(![self isEffectivelyNull:iso] ? iso : nil)
+                 shutterSpeed:(![self isEffectivelyNull:shutterSpeed] ? shutterSpeed : nil)
+                     aperture:(![self isEffectivelyNull:aperture] ? aperture : nil)
                       takenAt:takenAt];
     }];
 }
