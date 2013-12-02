@@ -10,7 +10,7 @@
                 <viewController id="vXZ-lx-hvc" customClass="PNViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2NW-Bf-fEc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="kh9-bI-dsS" customClass="PNPhotoListView" propertyAccessControl="all">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>

@@ -8,6 +8,9 @@
 
 #import "PNLocationFetcher.h"
 
+#define SIMULATOR_LAT 37.7862f
+#define SIMULATOR_LNG -122.4371f
+
 @implementation PNLocationFetcher {
     CLLocationManager *_locationManager;
 }
@@ -21,7 +24,7 @@
         [_locationManager startUpdatingLocation];
         
         #if TARGET_IPHONE_SIMULATOR
-        CLLocation *location = [[CLLocation alloc] initWithLatitude:37.7862f longitude:-122.4371f];
+        CLLocation *location = [[CLLocation alloc] initWithLatitude:SIMULATOR_LAT longitude:SIMULATOR_LNG];
         [self locationManager:_locationManager didUpdateLocations:[NSArray arrayWithObject:location]];
         #endif
     }

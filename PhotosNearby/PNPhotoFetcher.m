@@ -14,8 +14,8 @@
 #define API_URL_PHOTO_SEARCH @"http://localhost:8080"
 #define API_URL_PHOTO_DATA @"http://localhost:8080/data"
 #else
-#define API_URL_PHOTO_SEARCH @"http://54.202.155.62:8080"
-#define API_URL_PHOTO_DATA @"http://54.202.155.62:8080/data"
+#define API_URL_PHOTO_SEARCH @"http://54.202.155.62"
+#define API_URL_PHOTO_DATA @"http://54.202.155.62/data"
 #endif
 
 @implementation PNPhotoFetcher {
