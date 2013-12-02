@@ -13,7 +13,6 @@
 		295111A41845D1A3002A4754 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 295111A21845D1A3002A4754 /* InfoPlist.strings */; };
 		295111A61845D1A3002A4754 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 295111A51845D1A3002A4754 /* main.m */; };
 		295111AA1845D1A3002A4754 /* PNAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 295111A91845D1A3002A4754 /* PNAppDelegate.m */; };
-		295111AD1845D1A3002A4754 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 295111AB1845D1A3002A4754 /* Main.storyboard */; };
 		295111B01845D1A3002A4754 /* PNViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 295111AF1845D1A3002A4754 /* PNViewController.m */; };
 		295111B21845D1A3002A4754 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 295111B11845D1A3002A4754 /* Images.xcassets */; };
 		295111B91845D1A3002A4754 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 295111B81845D1A3002A4754 /* XCTest.framework */; };
@@ -91,7 +90,6 @@
 		295111A71845D1A3002A4754 /* PhotosNearby-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PhotosNearby-Prefix.pch"; sourceTree = "<group>"; };
 		295111A81845D1A3002A4754 /* PNAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNAppDelegate.h; sourceTree = "<group>"; };
 		295111A91845D1A3002A4754 /* PNAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNAppDelegate.m; sourceTree = "<group>"; };
-		295111AC1845D1A3002A4754 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		295111AE1845D1A3002A4754 /* PNViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PNViewController.h; sourceTree = "<group>"; };
 		295111AF1845D1A3002A4754 /* PNViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PNViewController.m; sourceTree = "<group>"; };
 		295111B11845D1A3002A4754 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -199,7 +197,6 @@
 				299DC31D1848044E0019C821 /* Models */,
 				295111A81845D1A3002A4754 /* PNAppDelegate.h */,
 				295111A91845D1A3002A4754 /* PNAppDelegate.m */,
-				295111AB1845D1A3002A4754 /* Main.storyboard */,
 				295111B11845D1A3002A4754 /* Images.xcassets */,
 				295111A01845D1A3002A4754 /* Supporting Files */,
 			);
@@ -435,7 +432,6 @@
 				295111A41845D1A3002A4754 /* InfoPlist.strings in Resources */,
 				299DC3B5184821550019C821 /* SDWebImage.podspec in Resources */,
 				299DC3A6184821550019C821 /* README.md in Resources */,
-				295111AD1845D1A3002A4754 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,14 +496,6 @@
 				295111A31845D1A3002A4754 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		295111AB1845D1A3002A4754 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				295111AC1845D1A3002A4754 /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		295111C11845D1A3002A4754 /* InfoPlist.strings */ = {

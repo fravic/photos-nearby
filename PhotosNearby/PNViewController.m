@@ -31,6 +31,10 @@
     _settingsBtn = [[PNSettingsButton alloc] initWithFrame:settingsBtnFrame];
     _settingsBtn.radius = 0.5;
     [self.view addSubview:_settingsBtn];
+    
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    self.view.frame = CGRectMake(0, 0, screenBounds.size.width, screenBounds.size.height);
+    self.tableView.frame = self.view.frame;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFetchPhotoList:) name:@"fetchedPhotoList" object:_fetcher];
 }
