@@ -1,8 +1,11 @@
 var express = require('express');
 var rest = require("./rest");
+var helpers = require("./helpers");
 
 var app = express();
 app.use(express.logger());
+app.use(express.static(__dirname + '/public'));
+helpers.setupPublicDirs()
 
 var API_URL_HOST = "api.500px.com";
 var PHOTO_SEARCH_PATH = "/v1/photos/search";
@@ -11,6 +14,9 @@ var CATEGORIES = "Landscapes,City%20and%20Architecture";
 var CONSUMER_KEY = process.env.CONSUMER_KEY;
 var PAGE_SIZE = 20;
 var IMAGE_SIZE = 4;
+var IMAGE_WIDTH = 400;
+
+var imagesById = {};
 
 // Returns the photo list for a given coordinate
 app.get('/', function(req, res) {
@@ -124,6 +130,29 @@ app.get('/data', function(req, res) {
                          }
                      });
     });
+});
+
+// Returns the resized image url for a photo
+app.get('/image', function(req, res) {
+    var id = req.query.photoId;
+    var url = req.query.url;
+
+    function returnImage(error) {
+        res.send({url: imagesById[id]});
+    }
+    if (!imagesById[id]) {
+        helpers.fetchAndResizeImageForId(id, url, IMAGE_WIDTH, function(path) {
+            if (!path) {
+                res.statusCode = 500;
+                res.send({apiError: "Could not resize image"});
+            } else {
+                imagesById[id] = path;
+                returnImage();
+            }
+        });
+    } else {
+        returnImage();
+    }
 });
 
 var port = process.env.PORT || 8080;
