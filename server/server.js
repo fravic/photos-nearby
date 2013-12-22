@@ -5,7 +5,7 @@ var helpers = require("./helpers");
 var app = express();
 app.use(express.logger());
 app.use(express.static(__dirname + '/public'));
-helpers.setupPublicDirs()
+helpers.setupPublicDirs();
 
 var API_URL_HOST = "api.500px.com";
 var PHOTO_SEARCH_PATH = "/v1/photos/search";
@@ -24,12 +24,13 @@ app.get('/', function(req, res) {
     var lng = req.query.lng;
     var radius = req.query.radius;
     var page = req.query.page;
+    var path, options;
 
     if (!lat || !lng || !radius) {
         res.send(500, { error: 'Must specify lat, lng and radius!' });
     }
 
-    var path = PHOTO_SEARCH_PATH;
+    path = PHOTO_SEARCH_PATH;
     path += "?geo=" + lat + "," + lng + "," + radius;
     path += "&only=" + CATEGORIES;
     path += "&image_size=" + IMAGE_SIZE;
@@ -38,7 +39,7 @@ app.get('/', function(req, res) {
     path += "&page=" + page;
     path += "&consumer_key=" + CONSUMER_KEY;
     
-    var options = {
+    options = {
         host: API_URL_HOST,
         https: true,
         path: path,
@@ -73,6 +74,7 @@ app.get('/', function(req, res) {
 // Returns additional secondary data for a list of photos
 app.get('/data', function(req, res) {
     var photoIds = req.query.photos;
+    var photos;
 
     if (!photoIds) {
         res.send(500, { error: 'Must provide a list of photos!' });
@@ -82,21 +84,23 @@ app.get('/data', function(req, res) {
     photoIds = photoIds.filter(function(pid) {
         return !isNaN(parseFloat(pid)) && isFinite(pid); // isNumeric
     });
-    var photos = [];
+    photos = [];
 
     res.statusCode = 200;
 
     // TODO: Should add a timeout here
     photoIds.forEach(function(pid) {
+        var path, options;
+
         if (!pid) {
             return true
         }
 
-        var path = PHOTO_DATA_PATH;
+        path = PHOTO_DATA_PATH;
         path += "/" + pid;
         path += "?consumer_key=" + CONSUMER_KEY;
 
-        var options = {
+        options = {
             host: API_URL_HOST,
             https: true,
             path: path,
@@ -137,20 +141,26 @@ app.get('/image', function(req, res) {
     var id = req.query.photoId;
     var url = req.query.url;
 
+    if (!id || !url) {
+        res.send(500, { error: 'Must specify photoId and url!' });
+    }
+
     function returnImage(error) {
-        res.send({url: imagesById[id]});
+        res.redirect(imagesById[id]);
     }
     if (!imagesById[id]) {
-        helpers.fetchAndResizeImageForId(id, url, IMAGE_WIDTH, function(path) {
+        helpers.fetchAndResizeImageForId(id, url, IMAGE_WIDTH, false, function(path) {
             if (!path) {
                 res.statusCode = 500;
                 res.send({apiError: "Could not resize image"});
             } else {
                 imagesById[id] = path;
+                console.log("Fetched and resized image (" + id + ") " + imagesById[id]);
                 returnImage();
             }
         });
     } else {
+        console.log("Image already fetched (" + id + ") " + imagesById[id]);
         returnImage();
     }
 });

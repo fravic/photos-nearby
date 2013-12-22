@@ -8,8 +8,8 @@
 
 #import "PNLocationFetcher.h"
 
-#define SIMULATOR_LAT 37.7862f
-#define SIMULATOR_LNG -122.4371f
+#define SIMULATOR_LAT 42.9837f
+#define SIMULATOR_LNG -81.2497f
 
 @implementation PNLocationFetcher {
     CLLocationManager *_locationManager;

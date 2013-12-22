@@ -95,6 +95,7 @@
 
 - (void)prepareForReuse {
     _auxDataView.alpha = 0.0f;
+    _photo = NULL;
 }
 
 - (void)didSelectMapButton:(UIButton*)btn {

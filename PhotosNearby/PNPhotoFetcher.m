@@ -13,6 +13,7 @@
 #if TARGET_IPHONE_SIMULATOR
 #define API_URL_PHOTO_SEARCH @"http://localhost:8080"
 #define API_URL_PHOTO_DATA @"http://localhost:8080/data"
+#define API_URL_PHOTO_IMAGE @"http://localhost:8080/image"
 #else
 #define API_URL_PHOTO_SEARCH @"http://54.202.155.62"
 #define API_URL_PHOTO_DATA @"http://54.202.155.62/data"
@@ -59,7 +60,13 @@
 
 - (void)downloadImageForPhoto:(PNPhoto *)photo {
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
-    [manager downloadWithURL:[NSURL URLWithString:photo.imageURL]
+    
+    // Use routed url for resized image
+    NSMutableString *url = [NSMutableString stringWithString:API_URL_PHOTO_IMAGE];
+    [url appendString:[NSString stringWithFormat:@"?photoId=%d", photo.photoId]];
+    [url appendString:[NSString stringWithFormat:@"&url=%@", photo.imageURL]];
+    
+    [manager downloadWithURL:[NSURL URLWithString:url]
                      options:0
                     progress:nil
                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished) {
@@ -67,7 +74,8 @@
                            photo.image = image;
                        }
                    }
-     ];
+    ];
+    NSLog(@"Downloading image from URL: %@", url);
 }
 
 - (void)didReceivePhotoSearchData:(NSData*)data {
@@ -76,26 +84,30 @@
                           options:kNilOptions
                           error:&error];
     
-    [photos enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSDictionary *dict = (NSDictionary*)obj;
+    @try {
+        [photos enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            NSDictionary *dict = (NSDictionary*)obj;
+            
+            PNPhoto *photo = [[PNPhoto alloc] init];
+            photo.photoId = [[dict objectForKey:@"id"] integerValue];
+            photo.imageURL = [dict objectForKey:@"image_url"];
+            photo.width = [[dict objectForKey:@"width"] floatValue];
+            photo.height = [[dict objectForKey:@"height"] floatValue];
+            photo.lat = [[dict objectForKey:@"latitude"] floatValue];
+            photo.lng = [[dict objectForKey:@"longitude"] floatValue];
+
+            [self.results addObject:photo];
+            [_photosById setObject:photo forKey:[NSNumber numberWithInt:photo.photoId]];
+
+            [self downloadImageForPhoto:photo];
+        }];
         
-        PNPhoto *photo = [[PNPhoto alloc] init];
-        photo.photoId = [[dict objectForKey:@"id"] integerValue];
-        photo.imageURL = [dict objectForKey:@"image_url"];
-        photo.width = [[dict objectForKey:@"width"] floatValue];
-        photo.height = [[dict objectForKey:@"height"] floatValue];
-        photo.lat = [[dict objectForKey:@"latitude"] floatValue];
-        photo.lng = [[dict objectForKey:@"longitude"] floatValue];
-
-        [self.results addObject:photo];
-        [_photosById setObject:photo forKey:[NSNumber numberWithInt:photo.photoId]];
-
-        [self downloadImageForPhoto:photo];
-    }];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"fetchedPhotoList" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.results, @"photos", nil]];
-    
-    [self fetchDataForPhotos:self.results];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"fetchedPhotoList" object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.results, @"photos", nil]];
+        
+        [self fetchDataForPhotos:self.results];
+    } @catch (NSException *e) {
+        NSLog(@"Error parsing data: %@", photos);
+    }
 }
 
 - (BOOL)isEffectivelyNull:(NSString*)obj {

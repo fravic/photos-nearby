@@ -17,26 +17,33 @@
 @implementation PNViewController {
     PNPhotoFetcher *_fetcher;
     PNPhotoListViewCell *_activeCell;
+    PNPhotoListView *_tableView;
     PNSettingsButton *_settingsBtn;
     PNMapViewController *_mapVC;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    _fetcher = [[PNPhotoFetcher alloc] init];
-    [_fetcher fetch];
-    
-    CGRect settingsBtnFrame = CGRectMake(0, self.view.bounds.size.height-37.5, 110.0, 37.5);
-    _settingsBtn = [[PNSettingsButton alloc] initWithFrame:settingsBtnFrame];
-    _settingsBtn.radius = 0.5;
-    [self.view addSubview:_settingsBtn];
-    
-    CGRect screenBounds = [[UIScreen mainScreen] bounds];
-    self.view.frame = CGRectMake(0, 0, screenBounds.size.width, screenBounds.size.height);
-    self.tableView.frame = self.view.frame;
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFetchPhotoList:) name:@"fetchedPhotoList" object:_fetcher];
+- (id)init {
+    if (self = [super init]) {
+        _tableView = [[PNPhotoListView alloc] init];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        [self.view addSubview:_tableView];
+        
+        _fetcher = [[PNPhotoFetcher alloc] init];
+        [_fetcher fetch];
+        
+        CGRect settingsBtnFrame = CGRectMake(0, self.view.bounds.size.height-37.5, 110.0, 37.5);
+        _settingsBtn = [[PNSettingsButton alloc] initWithFrame:settingsBtnFrame];
+        _settingsBtn.radius = 0.5;
+        [self.view addSubview:_settingsBtn];
+        
+        CGRect screenBounds = [[UIScreen mainScreen] bounds];
+        self.view.frame = CGRectMake(0, 0, screenBounds.size.width, screenBounds.size.height);
+        _tableView.frame = self.view.frame;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFetchPhotoList:) name:@"fetchedPhotoList" object:_fetcher];
+    }
+    return self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,7 +55,7 @@
 - (void)didFetchPhotoList:(NSNotification*)notification {
     // Data needs to be reloaded on the main thread
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
+        [_tableView reloadData];
     });
 }
 
@@ -118,11 +125,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     [_mapVC setPhoto:cell.photo];
     [_activeCell setPhotoHidden:YES];
     
-    CGRect cellRect = [self.tableView rectForRowAtIndexPath:[self.tableView indexPathForCell:cell]];
+    CGRect cellRect = [_tableView rectForRowAtIndexPath:[_tableView indexPathForCell:cell]];
     CGRect imgRect = CGRectMake(cellRect.origin.x + cell.imageView.frame.origin.x,
                                 cellRect.origin.y + cell.imageView.frame.origin.y,
                                 cell.imageView.frame.size.width, cell.imageView.frame.size.height);
-    CGRect imgRectInView = [self.tableView convertRect:imgRect toView:self.view];
+    CGRect imgRectInView = [_tableView convertRect:imgRect toView:self.view];
     
     [self.view addSubview:_mapVC.view];
     [_mapVC animateInitialPhotoPosition:imgRectInView];

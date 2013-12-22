@@ -13,6 +13,4 @@
 
 @interface PNViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, PNPhotoListViewCellDelegate, PNMapViewControllerDelegate>
 
-@property IBOutlet PNPhotoListView *tableView;
-
 @end

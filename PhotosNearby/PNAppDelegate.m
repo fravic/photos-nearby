@@ -7,12 +7,19 @@
 //
 
 #import "PNAppDelegate.h"
+#import "PNViewController.h"
 
 @implementation PNAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+    PNViewController *photoListVC = [[PNViewController alloc] init];
+    self.window.rootViewController = photoListVC;
+    [self.window makeKeyAndVisible];
+
     return YES;
 }
 							
